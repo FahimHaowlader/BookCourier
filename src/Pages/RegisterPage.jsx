@@ -146,16 +146,51 @@ export default function RegisterPage() {
                 </label>
               </div>
 
-              <button
-                type="submit"
-                className="w-full rounded-lg bg-slate-700 py-3 px-4 text-center font-semibold text-white transition-colors hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 dark:focus:ring-offset-slate-900 hover:cursor-pointer"
-              >
-                Create Account
-              </button>
+
+              <div className="flex flex-col gap-4">
+                  <button className="flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 text-base font-bold text-white shadow-sm hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
+                    Log In
+                  </button>
+
+                  <div className="flex items-center gap-4">
+                    <hr className="w-full border-slate-300 dark:border-slate-700" />
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      OR
+                    </p>
+                    <hr className="w-full border-slate-300 dark:border-slate-700" />
+                  </div>
+
+                  <button className="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-700 dark:bg-slate-700 px-6 text-base font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
+                    <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M22.5777 12.2592C22.5777 11.4593 22.5152 10.6865 22.3831 9.94055H12.2471V14.2882H18.1736C17.9231 15.8236 17.113 17.1162 15.8423 17.9734V20.7222H19.5546C21.4988 18.9482 22.5777 15.903 22.5777 12.2592Z"
+                      fill="#4285F4"
+                    ></path>
+                    <path
+                      d="M12.2471 23.0001C15.4744 23.0001 18.2059 21.932 20.149 20.013L16.4367 17.2642C15.3676 17.9735 13.9486 18.3976 12.2471 18.3976C9.17294 18.3976 6.55171 16.3835 5.61333 13.6618H1.78271V16.4913C3.70233 20.2524 7.64136 23.0001 12.2471 23.0001Z"
+                      fill="#34A853"
+                    ></path>
+                    <path
+                      d="M5.6133 13.6618C5.38911 12.9806 5.25928 12.2592 5.25928 11.5C5.25928 10.741 5.38911 10.0194 5.6133 9.33823V6.50879H1.78271C0.947266 8.20964 0.5 10.063 0.5 11.5C0.5 12.9371 0.947266 14.7904 1.78271 16.4913L5.6133 13.6618Z"
+                      fill="#FBBC05"
+                    ></path>
+                    <path
+                      d="M12.2471 4.60254C13.974 4.60254 15.2977 5.24886 15.8858 5.81422L18.7915 3.03845C16.9298 1.33759 14.8055 0 12.2471 0C7.64136 0 3.70233 2.74768 1.78271 6.50878L5.61333 9.33822C6.55171 6.61655 9.17294 4.60254 12.2471 4.60254Z"
+                      fill="#EA4335"
+                    ></path>
+                  </svg>
+                    <span> Continue with Google </span> 
+                  </button>
+                </div>
             </form>
 
             <p className="mt-8 text-center text-sm text-subtle-light dark:text-slate-700">
-              Already have an account? <a className="font-medium text-primary hover:underline hover:cursor-pointer">Log in</a>
+              Already have an account? <a className="text-primary underline font-bold hover:cursor-pointer">Log in</a>
             </p>
           </div>
         </div>
