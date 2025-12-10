@@ -4,6 +4,7 @@ import './App.css'
 
 import HomePage from './Pages/HomePage.jsx'
 import LoginPage from './Pages/LoginPage.jsx'
+import RegisterPage from './Pages/RegisterPage.jsx'
 
 function App() {
   const router = createBrowserRouter([
@@ -18,6 +19,10 @@ function App() {
     {
       path:'/login',
       Component: LoginPage
+    },
+    {
+      path:'/register',
+      Component : RegisterPage
     }
 ]) 
 
