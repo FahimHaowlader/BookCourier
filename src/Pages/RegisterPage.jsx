@@ -7,15 +7,26 @@ import registerImage from '../assets/Register.png';
 export default function RegisterPage() {
   return (
     <div className="font-display bg-background-light dark:bg-gray-100 text-slate-800 dark:text-slate-800 min-h-screen w-full flex flex-col items-center justify-center xl:pb-10">
-      <header className=" flex w-full items-center justify-between p-6 sm:px-10">
-        <div className="flex items-center gap-3 text-text-light dark:text-text-dark">
-          <div className="h-6 w-6 text-primary">
-            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
-            </svg>
-          </div>
-          <h2 className="text-xl font-bold tracking-tight">BookCourier</h2>
-        </div>
+   <header className=" flex w-full items-center justify-between p-6 sm:px-10">
+         <div className="flex items-center gap-4 text-text-light dark:text-text-dark">
+                    <div className="flex items-center justify-center gap-1 lg:gap-2">
+                      <div className=" text-primary size-7 text-slate-700">
+                        <svg
+                          fill="none"
+                          viewBox="0 0 48 48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z"
+                            fill="currentColor"
+                          ></path>
+                        </svg>
+                      </div>      
+                      <h2 className="text-xl font-bold tracking-tight text-slate-700">
+                        BookCourier
+                      </h2>
+                    </div>
+                  </div>
       </header>
 
       <main className="grid w-full max-w-6xl grid-cols-1 overflow-hidden rounded-xl bg-white dark:bg-white shadow-xl lg:grid-cols-2">

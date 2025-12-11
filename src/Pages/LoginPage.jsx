@@ -3,20 +3,32 @@ import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import Login from "../assets/Login.png";
 
 
 function LoginPage() {
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-gray-100 dark:bg-gray-100  group/design-root overflow-hidden">
+    <div className="relative flex min-h-screen w-full flex-col bg-gray-100 dark:bg-gray-100  group/design-root overflow-hidden ">
         <header className=" flex w-full items-center justify-between p-6 sm:px-10">
-        <div className="flex items-center gap-3 text-slate-700 dark:text-slate-700">
-          <div className="h-6 w-6 text-primary">
-            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z" fill="currentColor"></path>
-            </svg>
-          </div>
-          <h2 className="text-xl font-bold tracking-tight">BookCourier</h2>
-        </div>
+         <div className="flex items-center gap-4 text-text-light dark:text-text-dark">
+                    <div className="flex items-center justify-center gap-1 lg:gap-2 px-0 lg:pl-20">
+                      <div className="text-primary size-7 text-slate-700">
+                        <svg
+                          fill="none"
+                          viewBox="0 0 48 48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z"
+                            fill="currentColor"
+                          ></path>
+                        </svg>
+                      </div>      
+                      <h2 className="text-xl font-bold tracking-tight text-slate-700">
+                        BookCourier
+                      </h2>
+                    </div>
+                  </div>
       </header>
 
       <div className="layout-container flex h-full grow flex-col">
@@ -30,7 +42,7 @@ function LoginPage() {
                   className="aspect-square w-full rounded-xl bg-cover bg-center bg-no-repeat"
                   style={{
                     backgroundImage:
-                      "url('https://lh3.googleusercontent.com/aida-public/AB6AXuALAcqsg0VE5TrpF-W1-FAWNtC-IdTYdP-0AjhJ_w86yuO7h0csc5njnmuENXyhu2cBSdFFdQ2GCy55n2OsuW8BdGEbXEsI6_Cacnt4OKPhutlU3H1Kdz3TG6blcQQd2b5ZjTt6oid0LAnIhjlF-0_f-_lFK7cn7UjBc1liaFOlvBQuRR9Jcd0Z6fhoYkAy7e0plSKeQyawODRHBV5iQ4g9AnBTzJvGMy-z4cxMVMCeEqQP6OXTxmcvDu4ag3AkF6NB0aMM-N8qGRM')",
+                      `url(${Login})`,
                   }}
                 ></div>
 
