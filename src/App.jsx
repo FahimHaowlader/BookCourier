@@ -34,22 +34,22 @@ function App() {
              path:'/reviews',
              Component: ReviewsPage
            },
-          {
+           {
             path:'/blogs',
             Component: BlogsPage  
-         },
-         {
+          },
+          {
           path:'/contact',
           Component: ContactPage
-         },
-         {
+          },
+          {
           path:'/about',
           Component: AboutPage
-         },
-         {
+          },
+          {
           path:'/reviews',
           Component: ReviewsPage
-         }
+          }
     ]},
     {
             path: '*',
