@@ -13,11 +13,13 @@ import AboutPage from './Pages/AboutPage.jsx'
 import ProfilePage from './Pages/ProfilePage.jsx'
 import InvoicePage from './Pages/InvoicePAge.jsx'
 import MyOrderPage from './Pages/MyOrder.jsx'
+import AddBookPage from './Pages/AddBookPage.jsx'
 
 
 // Importing Layouts
 import MainLayout from './Layout/MainLayout.jsx'
 import UserLayout from './Layout/UserLayout.jsx'
+import LibrarianLayout from './Layout/LibrarianLayout.jsx'
 
 
 function App() {
@@ -62,6 +64,24 @@ function App() {
         {
           path:'profile',
           Component:ProfilePage
+        },
+        {
+          path : 'invoice',
+          Component : InvoicePage
+        },
+        {
+          path : 'my-orders',
+          Component : MyOrderPage
+        }
+      ]
+    },
+    {
+      path:'/',
+      Component:LibrarianLayout,
+      children:[
+        {
+          path:'add-book',
+          Component:AddBookPage
         },
         {
           path : 'invoice',
