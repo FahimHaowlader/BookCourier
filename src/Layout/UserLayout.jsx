@@ -6,9 +6,8 @@ const UserLayout = () => {
    const NavberLinks = [
     { to: "/profile", label: "Home" },
     { to: "/invoice", label: "Blogs" },
-    { to: "/reviews", label: "Reviews" },
-    { to: "/contact", label: "Contact" },
-    { to: "/about", label: "About" },
+    { to: "/my-orders", label: "Orders" },
+      
   ];
 
   return (
@@ -89,12 +88,11 @@ const UserLayout = () => {
         </div>
 
         <button 
-        className="flex min-w-[84px] justify-center items-center rounded-lg h-10 px-4 bg-slate-900 dark:bg-slate-900 text-slate-100 dark:text-slate-100 
-                    hover:text-slate-700 dark:hover:text-slate-700 text-sm font-bold hover:bg-slate-300 dark:hover:bg-slate-300 transition-colors hover:cursor-pointer"
-                  >
+         className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
           <span className="truncate">Request a book</span>
         </button>
       </aside>
+      {/* className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-800 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2"> */}
 
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-8">

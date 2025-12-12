@@ -12,6 +12,7 @@ import ContactPage from './Pages/ContactPage.jsx'
 import AboutPage from './Pages/AboutPage.jsx'
 import ProfilePage from './Pages/ProfilePage.jsx'
 import InvoicePage from './Pages/InvoicePAge.jsx'
+import MyOrderPage from './Pages/MyOrder.jsx'
 
 
 // Importing Layouts
@@ -65,6 +66,10 @@ function App() {
         {
           path : 'invoice',
           Component : InvoicePage
+        },
+        {
+          path : 'my-orders',
+          Component : MyOrderPage
         }
       ]
     },

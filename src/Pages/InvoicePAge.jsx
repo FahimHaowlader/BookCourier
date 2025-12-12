@@ -14,7 +14,7 @@ export default function InvoicePage() {
           </p>
         </div>
         <button
-         className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-700 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
+         className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-800 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
           <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
             download
           </span>
@@ -45,7 +45,7 @@ export default function InvoicePage() {
 
         <div className="flex gap-3 items-center">
           <button 
-           className="flex h-12 cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-700 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
+           className="flex h-12 cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-800 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
             <span
               className="material-symbols-outlined "
               style={{ fontSize: 20 }}
@@ -65,7 +65,7 @@ export default function InvoicePage() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/50">
+              <tr className="bg-slate-800 dark:bg-slate-800">
                 <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-white">
                   Payment ID
                 </th>
@@ -85,7 +85,7 @@ export default function InvoicePage() {
 
             <tbody className="divide-y divide-slate-200 dark:divide-slate-200">
               {/* Example Row */}
-              <tr className="bg-white dark:bg-white hover:bg-slate-50 hover:dark:hover:bg-slate-50 hover:cursor-pointer">
+              <tr className="bg-white dark:bg-white hover:bg-slate-100 hover:dark:hover:bg-slate-100 hover:cursor-pointer">
                 <td className="px-6 py-4 text-sm font-medium text-slate-800 ">
                   #BKC-0823
                 </td>
