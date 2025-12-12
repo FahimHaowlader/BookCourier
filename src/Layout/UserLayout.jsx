@@ -39,11 +39,11 @@ const UserLayout = () => {
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors" ${
+                    `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors " ${
                       isActive
-                        ? "text-white dark:text-white hover:text-slate-200 font-bold dark:font-bold bg-slate-900"
+                        ? "text-white dark:text-white font-bold hover:text-white dark:hover:text-white  hover:bg-slate-900 text-sm dark:hover:bg-slate-900 hover:cursor-pointer  dark:font-bold bg-slate-900"
                         : "text-[#0d141b] dark:text-[#0d141b] "
-                    }  hover:text-slate-200 hover:bg-slate-800 dark:hover:bg-slate-800`
+                    } hover:text-slate-700 dark:hover:text-slate-700 font-bold hover:bg-slate-300 dark:hover:bg-slate-300 text-sm hover:cursor-pointer   `
                   }
                 >
                   <span className="material-symbols-outlined">
@@ -88,7 +88,10 @@ const UserLayout = () => {
           </nav>
         </div>
 
-        <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-900 hover:bg-slate-700 text-slate-50 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+        <button 
+        className="flex min-w-[84px] justify-center items-center rounded-lg h-10 px-4 bg-slate-900 dark:bg-slate-900 text-slate-100 dark:text-slate-100 
+                    hover:text-slate-700 dark:hover:text-slate-700 text-sm font-bold hover:bg-slate-300 dark:hover:bg-slate-300 transition-colors hover:cursor-pointer"
+                  >
           <span className="truncate">Request a book</span>
         </button>
       </aside>
