@@ -11,6 +11,7 @@ import BlogsPage from './Pages/BlogsPage.jsx'
 import ContactPage from './Pages/ContactPage.jsx'
 import AboutPage from './Pages/AboutPage.jsx'
 import ProfilePage from './Pages/ProfilePage.jsx'
+import InvoicePage from './Pages/InvoicePAge.jsx'
 
 
 // Importing Layouts
@@ -60,6 +61,10 @@ function App() {
         {
           path:'profile',
           Component:ProfilePage
+        },
+        {
+          path : 'invoice',
+          Component : InvoicePage
         }
       ]
     },

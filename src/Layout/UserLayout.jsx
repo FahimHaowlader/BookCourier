@@ -5,7 +5,7 @@ import { NavLink } from "react-router";
 const UserLayout = () => {
    const NavberLinks = [
     { to: "/profile", label: "Home" },
-    { to: "/blogs", label: "Blogs" },
+    { to: "/invoice", label: "Blogs" },
     { to: "/reviews", label: "Reviews" },
     { to: "/contact", label: "Contact" },
     { to: "/about", label: "About" },
