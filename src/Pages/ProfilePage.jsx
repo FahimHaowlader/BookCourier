@@ -1,0 +1,103 @@
+import React from "react";
+
+
+export default function ProfilePage() {
+  return (
+  
+      <div className="mx-auto max-w-5xl py-4">
+        {/* Page Heading */}
+        <div className="flex flex-wrap justify-between gap-3 pb-8">
+          <h1 className="text-[#0d141b] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
+            My Profile
+          </h1>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Profile Header */}
+          <div className="lg:col-span-1">
+            <div className="flex flex-col p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div className="flex w-full flex-col gap-4 items-center text-center">
+                <div
+                  className="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-32 w-32"
+                  style={{
+                    backgroundImage:
+                      "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBGLkn_TAsR_ytCkI1KIYyuCrt6Eg2TFUOiLTv-3j16gK4N6RKTfbV0G3zwBAWydvCDWYJvqYb9ao1W0YTkaxCokxTCEC5rC3-EQQm8c0j69oAQMGieXN3Hxz1XXimRM_qVy4_sI91SkFv7rmUtqJSSkqfqIkeud0l44dE4Pg_3W5KSVj_50aqK7c0KYgEg6rtf0-vcftQGPcQ4NuA6arAxCgSx3T6daMpSddLRfnQqC-bIB-5ecY3YFNFkyIfymiLllYjDRU0UhxA')",
+                  }}
+                ></div>
+
+                <div className="flex flex-col justify-center">
+                  <p className="text-[#0d141b] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">
+                    Alexandre V.
+                  </p>
+                  <p className="text-[#4c739a] dark:text-slate-400 text-base font-normal leading-normal">
+                    alex.v@email.com
+                  </p>
+                  <p className="text-[#4c739a] dark:text-slate-400 text-base font-normal leading-normal mt-1">
+                    Member since Jan 2023
+                  </p>
+                </div>
+
+                <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                  Upload new photo
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Edit Form */}
+          <div className="lg:col-span-2">
+            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+              <h2 className="text-[#0d141b] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-6 pb-3 pt-6 border-b border-slate-200 dark:border-slate-800">
+                Edit your information
+              </h2>
+
+              <form className="p-6 space-y-6">
+                {/* Full Name */}
+                <div className="flex flex-col">
+                  <label className="text-[#0d141b] dark:text-slate-200 text-base font-medium pb-2" htmlFor="fullName">
+                    Full Name
+                  </label>
+                  <input
+                    id="fullName"
+                    className="form-input w-full rounded-lg text-[#0d141b] dark:text-white border border-slate-300 dark:border-slate-700 bg-background-light dark:bg-background-dark h-12 p-3 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    placeholder="Enter your full name"
+                    defaultValue="Alexandre V."
+                  />
+                </div>
+
+                {/* Email */}
+                <div className="flex flex-col">
+                  <label className="text-[#0d141b] dark:text-slate-200 text-base font-medium pb-2" htmlFor="email">
+                    Email Address
+                  </label>
+                  <input
+                    id="email"
+                    readOnly
+                    className="form-input w-full rounded-lg text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 h-12 p-3 cursor-not-allowed"
+                    defaultValue="alex.v@email.com"
+                  />
+                </div>
+
+                {/* Actions */}
+                <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
+                  <button
+                    type="button"
+                    className="flex min-w-[84px] justify-center rounded-lg h-10 px-4 bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled
+                    className="flex min-w-[84px] justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  );
+}

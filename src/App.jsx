@@ -10,10 +10,12 @@ import ReviewsPage from './Pages/ReviewsPage.jsx'
 import BlogsPage from './Pages/BlogsPage.jsx'
 import ContactPage from './Pages/ContactPage.jsx'
 import AboutPage from './Pages/AboutPage.jsx'
+import ProfilePage from './Pages/ProfilePage.jsx'
 
 
 // Importing Layouts
 import MainLayout from './Layout/MainLayout.jsx'
+import UserLayout from './Layout/UserLayout.jsx'
 
 
 function App() {
@@ -52,6 +54,16 @@ function App() {
           }
     ]},
     {
+      path:'/',
+      Component:UserLayout,
+      children:[
+        {
+          path:'profile',
+          Component:ProfilePage
+        }
+      ]
+    },
+    {
             path: '*',
              element: <div>404 Not Found</div>
     },
@@ -63,6 +75,14 @@ function App() {
       path:'/register',
       Component : RegisterPage
     },
+    {
+      path:'/logout',
+      element: <Navigate to="/home" replace />
+    },
+    // {
+    //   path:'/profile',
+    //   Component:ProfilePage
+    // }
     
 ]) 
   

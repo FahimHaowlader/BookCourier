@@ -12,10 +12,10 @@ const Header = () => {
   const { setLoading } = useAuth();
   const NavberLinks = [
     { to: "/home", label: "Home" },
-    { to: "/all-property", label: "All Properties" },
-    { to: "/add-property", label: "Add Property" },
-    { to: "/my-property", label: "My Properties" },
-    { to: "/my-ratings", label: "My Ratings" },
+    { to: "/blogs", label: "Blogs" },
+    { to: "/reviews", label: "Reviews" },
+    { to: "/contact", label: "Contact" },
+    { to: "/about", label: "About" },
   ];
 
   const handleSignOut = () => {
@@ -42,7 +42,7 @@ const Header = () => {
     backdrop-blur-sm shadow-lg
   "
       >
-        <div className="flex items-center justify-between w-full max-w-7xl px-4 sm:px-6 md:pr-16 lg:px-24 xl:px-24 py-3">
+        <div className="flex items-center justify-between w-full max-w-7xl px-4 sm:px-6 md:pr-16 lg:px-24 xl:px-20 py-3">
           <div className="flex items-center gap-4 text-text-light dark:text-text-dark">
             <div className="flex items-center justify-center gap-1 lg:gap-2">
               <div className="hidden lg:block size-7 text-[rgb(33,94,152)]">
@@ -75,7 +75,7 @@ const Header = () => {
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `text-[14px] font-medium transition-colors ${
+                    `text-[16px] font-medium transition-colors ${
                       isActive
                         ? "text-[rgb(40,187,190)]  font-bold dark:font-bold"
                         : "text-[rgb(33,94,152)]  dark:text-[rgb(33,94,152)] "
@@ -141,7 +141,7 @@ const Header = () => {
                     </div>
                     {/* Tooltip: visible on hover/focus */}
                     <div className="pointer-events-none absolute right-1/2 translate-x-1/2 -bottom-10 transform opacity-0 scale-95 transition-all duration-150 group-hover:opacity-100 group-hover:scale-100 group-focus:opacity-100">
-                      <div className="bg-neutral-900 text-white text-[14px] px-3 py-1 rounded-md shadow-md whitespace-nowrap">
+                      <div className="bg-neutral-900 text-white text-[16px] px-3 py-1 rounded-md shadow-md whitespace-nowrap">
                         {user.displayName}
                       </div>
                     </div>
