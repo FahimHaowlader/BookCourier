@@ -2,7 +2,7 @@ import React from "react";
 
 export default function InvoicePage() {
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto px-8">
       {/* Page Heading */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div className="flex flex-col gap-1">

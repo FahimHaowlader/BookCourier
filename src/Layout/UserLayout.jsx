@@ -7,6 +7,7 @@ const UserLayout = () => {
     { to: "/profile", label: "Home" },
     { to: "/invoice", label: "Blogs" },
     { to: "/my-orders", label: "Orders" },
+    { to: "/my-wishlist", label: "Wishlist" },
       
   ];
 

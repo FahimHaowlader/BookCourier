@@ -18,6 +18,7 @@ import MyBooksPage from './Pages/MyBookPage.jsx'
 import OrdersPage from './Pages/OrdersPage.jsx'
 import AllUsersPage from './Pages/AllUsersPage.jsx'
 import BooksPage from './Pages/BooksPage.jsx'
+import WishlistPage from './Pages/WishlistPage.jsx'
 
 
 // Importing Layouts
@@ -61,7 +62,8 @@ function App() {
           path:'/reviews',
           Component: ReviewsPage
           }
-    ]},
+      ]
+    },
     {
       path:'/',
       Component:UserLayout,
@@ -77,7 +79,12 @@ function App() {
         {
           path : 'my-orders',
           Component : MyOrderPage
-        }
+        },
+        {
+          path : 'my-wishlist',
+          Component : WishlistPage
+        },
+        
       ]
     },
     {
