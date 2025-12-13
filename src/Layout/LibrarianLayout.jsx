@@ -5,7 +5,7 @@ const LibrarianLayout = () => {
    const NavberLinks = [
     { to: "/add-book", label: "Add Book" },
     { to: "/my-books", label: "My Books" },
-    { to: "/my-orders", label: "Orders" },
+    { to: "/orders", label: "Orders" },
       
   ];
 

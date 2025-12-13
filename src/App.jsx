@@ -15,6 +15,7 @@ import InvoicePage from './Pages/InvoicePAge.jsx'
 import MyOrderPage from './Pages/MyOrder.jsx'
 import AddBookPage from './Pages/AddBookPage.jsx'
 import MyBooksPage from './Pages/MyBookPage.jsx'
+import OrdersPage from './Pages/OrdersPage.jsx'
 
 
 // Importing Layouts
@@ -85,8 +86,8 @@ function App() {
           Component:AddBookPage
         },
         {
-          path : 'invoice',
-          Component : InvoicePage
+          path : 'orders',
+          Component : OrdersPage
         },
         {
           path : 'my-books',

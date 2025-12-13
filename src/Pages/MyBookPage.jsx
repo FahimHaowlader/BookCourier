@@ -52,7 +52,7 @@ export default function MyBooksPage() {
     <div className="p-10">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-black text-black dark:text-black ">
+        <h1 className="text-4xl font-bold  text-black dark:text-black ">
           My Books
         </h1>
         <button 
