@@ -17,6 +17,7 @@ import AddBookPage from './Pages/AddBookPage.jsx'
 import MyBooksPage from './Pages/MyBookPage.jsx'
 import OrdersPage from './Pages/OrdersPage.jsx'
 import AllUsersPage from './Pages/AllUsersPage.jsx'
+import BooksPage from './Pages/BooksPage.jsx'
 
 
 // Importing Layouts
@@ -110,8 +111,8 @@ function App() {
           Component : AllUsersPage
         },
         {
-          path : 'my-books',
-          Component : MyBooksPage
+          path : 'all-books',
+          Component : BooksPage
         }
       ]
     },

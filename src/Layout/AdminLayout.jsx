@@ -5,7 +5,7 @@ const AdminLayout = () => {
    const NavberLinks = [
     { to: "/profile", label: "Profile" },
     { to: "/all-users", label: "Users" },
-    { to: "/books", label: "Books" },
+    { to: "/all-books", label: "All Books" },
       
   ];
 
