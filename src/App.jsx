@@ -20,6 +20,7 @@ import AllUsersPage from './Pages/AllUsersPage.jsx'
 import BooksPage from './Pages/BooksPage.jsx'
 import WishlistPage from './Pages/WishlistPage.jsx'
 import BookDetailsPage from './Pages/BookDetailsPage.jsx'
+import AllBookPage from './Pages/AllBookPage.jsx'
 
 
 // Importing Layouts
@@ -62,6 +63,10 @@ function App() {
           {
           path:'/reviews',
           Component: ReviewsPage
+          },
+          {
+            path  :'/books',
+            Component : AllBookPage
           },
           {
             path:'/book/:id',

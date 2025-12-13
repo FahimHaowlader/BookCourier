@@ -120,8 +120,7 @@ const Header = () => {
               <div className="flex gap-2 ">
                 <button
                   onClick={handleSignOut}
-                  className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-100 text-text-light dark:bg-slate-100 dark:text-text-dark text-[16px] font-bold tracking-wide hover:bg-slate-200 dark:hover:bg-slate-200 transition-colors"
-                >
+                   className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
                   <span className="truncate">Log out</span>
                 </button>
                 <div className="relative">
@@ -152,14 +151,12 @@ const Header = () => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/login"
-                  className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-2 md:px-4 bg-slate-200 text-text-light dark:bg-slate-200 dark:text-slate-700 text-[16px] font-bold tracking-wide hover:bg-slate-700 hover:text-white dark:hover:bg-slate-700 transition-colors"
-                >
+                 className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
                   <span className="truncate">Login</span>
                 </Link>
                 <Link
                   to="/register"
-                  className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-2 md:px-4 bg-slate-200 text-white text-[16px] font-bold tracking-wide hover:text-white dark:text-slate-700 hover:bg-slate-700 transition-colors hover:cursor-pointer"
-                >
+                  className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
                   <span className="truncate">Signup</span>
                 </Link>
               </div>
