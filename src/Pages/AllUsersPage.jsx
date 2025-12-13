@@ -52,15 +52,22 @@ export default function AllUsersPage() {
     );
   };
 
+   const makeMember = (id) => {
+    setUsers((prev) =>
+      prev.map((u) => (u.id === id ? { ...u, role: "Member" } : u))
+    );
+  };
+
+
   return (
     <div className="p-8 w-full max-w-7xl mx-auto flex flex-col gap-6">
       {/* ================= HEADER ================= */}
       <div className="flex flex-wrap justify-between items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-900">
             All Users
           </h1>
-          <p className="text-slate-500 dark:text-slate-400">
+          <p className="text-slate-500 dark:text-slate-500">
             Manage all registered users in the system.
           </p>
         </div>
@@ -70,7 +77,7 @@ export default function AllUsersPage() {
       <div className="flex flex-col md:flex-row gap-4 items-center">
         {/* Search */}
         <input
-          className="w-full md:flex-1 px-4 py-2.5 border rounded-lg"
+          className="w-full md:flex-1 px-4 py-1.5 border border-slate-200 bg-white rounded-lg"
           placeholder="Search by name, email, or user ID..."
           value={search}
           onChange={(e) => {
@@ -88,11 +95,11 @@ export default function AllUsersPage() {
                 setRoleFilter(role);
                 setPage(1);
               }}
-              className={`h-9 px-4 rounded-lg border text-sm font-medium
+              className={`h-9 px-4 rounded-lg  text-sm font-medium hover:cursor-pointer hover:text-slate-800 hover:bg-slate-300
                 ${
                   roleFilter === role
-                    ? "bg-primary text-white border-primary"
-                    : "bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700"
+                    ? "bg-slate-200 text-slate-800"
+                    : "bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-white"
                 }`}
             >
               {role === "All" ? "All Roles" : role}
@@ -102,15 +109,15 @@ export default function AllUsersPage() {
       </div>
 
       {/* ================= TABLE ================= */}
-      <div className="overflow-x-auto bg-white dark:bg-slate-900 rounded-lg border">
+      <div className="overflow-x-auto bg-white dark:bg-slate-900 rounded-lg border border-slate-200">
         <table className="w-full text-left">
-          <thead className="bg-slate-100 dark:bg-slate-800">
+          <thead className="bg-slate-100 dark:bg-slate-800 text-white">
             <tr>
               <th className="px-4 py-3 text-sm font-semibold">User ID</th>
               <th className="px-4 py-3 text-sm font-semibold">Full Name</th>
               <th className="px-4 py-3 text-sm font-semibold">Email</th>
-              <th className="px-4 py-3 text-sm font-semibold">Role</th>
-              <th className="px-4 py-3 text-sm font-semibold text-right">
+              <th className="text-center px-4 py-3 text-sm font-semibold">Role</th>
+              <th className="text-center px-4 py-3 text-sm font-semibold">
                 Actions
               </th>
             </tr>
@@ -120,13 +127,13 @@ export default function AllUsersPage() {
             {paginatedUsers.map((user) => (
               <tr
                 key={user.id}
-                className="border-b border-slate-200 dark:border-slate-800"
+                className="border-b bg-white border-slate-200 dark:border-slate-200 hover:bg-slate-100 hover:cursor-pointer"
               >
-                <td className="px-4 py-3 text-sm text-slate-500">
+                <td className="px-4 py-3 text-sm text-slate-700">
                   #{user.id}
                 </td>
 
-                <td className="px-4 py-3 text-sm font-medium">
+                <td className="px-4 py-3 text-sm text-slate-900 font-medium">
                   {user.name}
                 </td>
 
@@ -134,7 +141,7 @@ export default function AllUsersPage() {
                   {user.email}
                 </td>
 
-                <td className="px-4 py-3">
+                <td className="text-center px-4 py-3">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium
                       ${
@@ -150,24 +157,40 @@ export default function AllUsersPage() {
                 </td>
 
                 {/* ACTIONS */}
-                <td className="px-4 py-3 text-right">
+                <td className="px-4 py-3 text-right text-slate-900 font-medium hover:cursor-pointer">
                   <div className="flex justify-end gap-2">
-                    {user.role !== "Admin" && (
+                    {user.role == "Librarian" && (<>
+                           <button
+                        onClick={() => makeMember(user.id)}
+                        className="px-3 py-1 text-xs border border-slate-400 rounded-md hover:bg-slate-600 hover:text-white hover:cursor-pointer active:bg-slate-500"
+                      >
+                        Make Member
+                      </button>
                       <button
                         onClick={() => makeAdmin(user.id)}
-                        className="px-3 py-1 text-xs border rounded-md hover:bg-slate-100"
+                        className="px-3 py-1 text-xs border border-slate-400 rounded-md hover:bg-slate-600 hover:text-white hover:cursor-pointer active:bg-slate-500"
                       >
                         Make Admin
                       </button>
+                     
+                           </>
                     )}
 
-                    {user.role !== "Librarian" && (
+                    {user.role == "Member" && (<>
+                   
                       <button
                         onClick={() => makeLibrarian(user.id)}
-                        className="px-3 py-1 text-xs border rounded-md hover:bg-slate-100"
+                        className="px-3 py-1 text-xs border border-slate-400 rounded-md hover:bg-slate-600 hover:text-white hover:cursor-pointer active:bg-slate-500"
                       >
                         Make Librarian
                       </button>
+                        <button
+                        onClick={() => makeAdmin(user.id)}
+                        className="px-3 py-1 text-xs border border-slate-400 rounded-md hover:bg-slate-600 hover:text-white hover:cursor-pointer active:bg-slate-500"
+                      >
+                        Make Admin
+                      </button>
+                       </>
                     )}
                   </div>
                 </td>
@@ -189,7 +212,7 @@ export default function AllUsersPage() {
       </div>
 
       {/* ================= PAGINATION ================= */}
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <p className="text-sm text-slate-600">
           Showing {(page - 1) * USERS_PER_PAGE + 1} to{" "}
           {Math.min(page * USERS_PER_PAGE, filteredUsers.length)} of{" "}
@@ -212,7 +235,7 @@ export default function AllUsersPage() {
             Next
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
