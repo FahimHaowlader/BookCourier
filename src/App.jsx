@@ -16,12 +16,14 @@ import MyOrderPage from './Pages/MyOrder.jsx'
 import AddBookPage from './Pages/AddBookPage.jsx'
 import MyBooksPage from './Pages/MyBookPage.jsx'
 import OrdersPage from './Pages/OrdersPage.jsx'
+import AllUsersPage from './Pages/AllUsersPage.jsx'
 
 
 // Importing Layouts
 import MainLayout from './Layout/MainLayout.jsx'
 import UserLayout from './Layout/UserLayout.jsx'
 import LibrarianLayout from './Layout/LibrarianLayout.jsx'
+import AdminLayout from './Layout/AdminLayout.jsx'
 
 
 function App() {
@@ -88,6 +90,24 @@ function App() {
         {
           path : 'orders',
           Component : OrdersPage
+        },
+        {
+          path : 'my-books',
+          Component : MyBooksPage
+        }
+      ]
+    },
+     {
+      path:'/',
+      Component:AdminLayout,
+      children:[
+        {
+          path:'profile',
+          Component:ProfilePage
+        },
+        {
+          path : 'all-users',
+          Component : AllUsersPage
         },
         {
           path : 'my-books',
