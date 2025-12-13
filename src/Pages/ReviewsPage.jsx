@@ -87,7 +87,7 @@ const ReviewsPage = () => {
             key={idx}
             className="flex flex-col md:flex-row items-center bg-white dark:bg-slate-800/50 p-6 md:p-8 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 gap-6"
           >
-            <div className="flex-shrink-0">
+            <div className="">
               <img
                 alt={review.name}
                 src={review.img}

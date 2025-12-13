@@ -36,7 +36,7 @@ export default function RegisterPage() {
             alt="A person reaching for a book on a high shelf in a vast library, symbolizing knowledge and access."
             src={registerImage}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div className="absolute inset-0 "></div>
           <div className="absolute bottom-10 left-10 text-white">
             <h1 className="mb-2 text-4xl font-bold">Welcome to BookCourier</h1>
             <p className="max-w-md text-lg text-white/90">

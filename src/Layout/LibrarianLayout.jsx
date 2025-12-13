@@ -4,7 +4,7 @@ import { NavLink, Outlet } from 'react-router'
 const LibrarianLayout = () => {
    const NavberLinks = [
     { to: "/add-book", label: "Add Book" },
-    { to: "/invoice", label: "Blogs" },
+    { to: "/my-books", label: "My Books" },
     { to: "/my-orders", label: "Orders" },
       
   ];
