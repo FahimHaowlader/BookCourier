@@ -57,7 +57,7 @@ const Header = () => {
                   ></path>
                 </svg>
               </div>
-              <div className="lg:hidden flex-shrink-0 md:px-10">
+              <div className="lg:hidden  md:px-10">
                 <button onClick={toggleMenu} className="text-black text-3xl">
                   {isOpen ? <HiX /> : <HiMenu />}
                 </button>

@@ -1,12 +1,60 @@
 import React from "react";
-import { MdEmail } from "react-icons/md";
-import { IoMdLock } from "react-icons/io";
+import { useState } from "react";
+import { Link,useLocation, useNavigate } from "react-router";
+import { useAuth } from "../Context/AuthContext";
+import { toast } from "react-hot-toast";
+// import { MdEmail } from "react-icons/md";
+// import { IoMdLock } from "react-icons/io";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import Login from "../assets/Login.png";
 
 
 function LoginPage() {
+     const [showPass, setshowPass] = useState(true);
+   const location = useLocation();
+    const navigate = useNavigate();
+
+    const from = location?.state || "/";
+    console.log(location?.state);
+    const { emailUserSignIn, googleUser, setLoading } = useAuth();
+
+    const handleEmailLogin = (e) => {
+      e.preventDefault();
+      // console.log(from)
+      const form = e.target;
+      const email = form.email.value;
+      const password = form.password.value;
+      console.log(email, password);
+      emailUserSignIn(email, password)
+        .then((user) => {
+          setLoading(false);
+          // console.log(from)
+          toast.success("Login Successful");
+          navigate(from);
+
+        })
+        .catch((error) => {
+          setLoading(false);
+          toast.error(error.message);
+          console.log(error);
+          // alert(error.message);
+        });
+    };
+
+      const handleGooglelogin = () => {
+      googleUser()
+        .then((user) => {
+          setLoading(false);
+          toast.success("Google Login Successful");
+          navigate(from);
+        })
+        .catch((error) => {
+          setLoading(false);
+          toast.error(error.message);
+        });
+    };
+
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-gray-100 dark:bg-gray-100  group/design-root overflow-hidden ">
         <header className=" flex w-full items-center justify-between p-6 sm:px-10">
@@ -59,7 +107,8 @@ function LoginPage() {
 
             {/* Login Form */}
             <div className="flex w-full items-center justify-center p-6 lg:w-1/2 lg:p-12">
-              <div className="w-full max-w-md space-y-8">
+              <div className="w-full max-w-md space-y-4">
+            <form onSubmit={handleEmailLogin}>
 
                 {/* Branding */}
                 {/* <div className="text-center lg:text-left">
@@ -96,6 +145,7 @@ function LoginPage() {
                     </p>
                     <div className="flex w-full items-stretch rounded-lg"> 
                       <input
+                      name="email"
                         type="email"
                         placeholder="Enter your email"
                         className="form-input flex w-full flex-1 rounded-lg text-black dark:text-black  bg-white dark:bg-white h-14 p-3.5 placeholder:text-slate-400 dark:placeholder:text-slate-500 "
@@ -110,27 +160,31 @@ function LoginPage() {
                     </p>
                     <div className="flex w-full items-stretch rounded-lg relative">                    
                       <input
-                        type="password"
+                      name="password"
+                        type={!showPass ? "text" : "password"}
                         placeholder="Enter your password"
-                        className="form-input flex w-full flex-1 rounded-lg text-slate-800 dark:text-slate-200 border bg-white dark:bg-white h-14 p-3.5 pr-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 "
+                        className="form-input flex w-full flex-1 rounded-lg text-slate-800 dark:text-slate-800 border border-slate-100 bg-white dark:bg-white h-14 p-3.5 pr-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 "
                       />
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-500 dark:text-slate-400 cursor-pointer">
-                        {/* <span className="material-symbols-outlined">visibility_off</span> */}
-                        <FaRegEye/>
-                      </div>
+                       <button type="button" onClick={() => setshowPass(!showPass)}>
+                        {!showPass ? (
+                          <FaRegEyeSlash className="absolute right-5 top-4.5 sm:right-10   cursor-pointer text-gray-400" />
+                        ) : (
+                          <FaRegEye className="absolute right-5 top-4.5 sm:right-10  cursor-pointer text-gray-400" />
+                        )}
+                      </button>
                     </div>
                   </label>
 
-                  <a className="text-slate-600 text-sm font-medium underline text-right hover:text-slate-800 hover:cursor-pointer">
+                  <Link className="text-slate-600 text-sm font-medium underline text-right hover:text-slate-800 hover:cursor-pointer">
                     Forgot Password?
-                  </a>
+                  </Link>
                 </div>
+             
 
                 {/* Actions */}
-                <div className="flex flex-col gap-4">
-                  <button className="flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 text-base font-bold text-white shadow-sm hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
-                    Log In
-                  </button>
+                {/* <div className="flex flex-col gap-4"> */}
+                  <input type="submit" className="flex h-14 w-full mt-6 items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 text-base font-bold text-white shadow-sm hover:bg-slate-800 hover:cursor-pointer hover:shadow-md" value="Log In" />
+                   </form>
 
                   <div className="flex items-center gap-4">
                     <hr className="w-full border-slate-300 dark:border-slate-700" />
@@ -139,8 +193,8 @@ function LoginPage() {
                     </p>
                     <hr className="w-full border-slate-300 dark:border-slate-700" />
                   </div>
-
-                  <button className="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-700 dark:bg-slate-700 px-6 text-base font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
+                
+                  <button onClick={handleGooglelogin} className="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-700 dark:bg-slate-700 px-6 text-base font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
                     <svg
                     className="h-5 w-5"
                     fill="none"
@@ -166,13 +220,13 @@ function LoginPage() {
                   </svg>
                     <span> Continue with Google </span> 
                   </button>
-                </div>
+                {/* </div> */}
 
                 <p className="text-center text-sm font-medium text-slate-800 dark:text-slate-800">
                   Don't have an account?{" "}
-                  <a className="font-bold text-primary underline hover:text-primary/80 hover:cursor-pointer">
+                  <Link to="/register" className="font-bold text-primary hover:underline hover:text-primary/80 hover:cursor-pointer">
                     Register
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>

@@ -2,9 +2,84 @@ import React from 'react';
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import registerImage from '../assets/Register.png';
+import { useState } from "react";
+import {Link,useNavigate } from "react-router";
+import { useAuth } from "../Context/AuthContext";
+import { toast } from "react-hot-toast";
 
 
 export default function RegisterPage() {
+   const [showPass, setshowPass] = useState(true);
+     const [checked, setChecked] = useState(false);
+
+  const navigate = useNavigate();
+  const { setLoading, createEmailUser, userInfoUpdate, googleUser } = useAuth();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.fullName.value;
+    const url = form.url.value;
+    const email = form.email.value;
+    // const terms = form.terms.value;
+    const password = form.password.value;
+
+    console.log(name, url, email, password);
+    const userInfo = {
+      displayName: name,
+      photoURL: url,
+    };
+    if (!checked) {
+      toast.error("You must agree to the Terms of Service and Privacy Policy");
+      return;
+    }
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+    if (!/(?=.*[a-z])/.test(password)) {
+      toast.error("Password must contain a lowercase letter");
+      return;
+    }
+    if (!/(?=.*[A-Z])/.test(password)) {
+       toast.error("Password must contain an uppercase letter");
+      return;
+    }
+    createEmailUser(email, password)
+      .then((user) => {
+        console.log(user);
+        userInfoUpdate(userInfo)
+          .then(() => {
+            setLoading(false);
+            toast.success("Profile Updated Successfully");
+            navigate("/");
+          })
+          .catch((e) => {
+            toast.error("Failed to Update Profile");
+            console.log(e);
+          });
+      })
+      .catch((e) => {
+        setLoading(false);
+        toast.error(e.message);
+        //
+        // alert(e.message);
+      });
+  };
+
+  const handleGoogleSignup = () => {
+    googleUser()
+      .then((user) => {
+        setLoading(false);
+        navigate("/");
+        toast.success("Google Sign Up Successful");
+      })
+      .catch((e) => {
+        toast.error("Google Sign Up Failed");
+        console.log(e);
+      });
+  };
+
   return (
     <div className="font-display bg-background-light dark:bg-gray-100 text-slate-800 dark:text-slate-800 min-h-screen w-full flex flex-col items-center justify-center xl:pb-10">
    <header className=" flex w-full items-center justify-between p-6 sm:px-10">
@@ -58,7 +133,7 @@ export default function RegisterPage() {
               </p>
             </div>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-text-light dark:text-text-dark" htmlFor="fullName">
                   Full Name
@@ -66,6 +141,7 @@ export default function RegisterPage() {
                 <input
                   className="form-input w-full rounded-lg border-border-light bg-background-light p-3 text-text-light placeholder:text-subtle-light focus:border-primary focus:ring-primary dark:border-border-dark dark:bg-gray-100 dark:text-text-dark dark:focus:border-primary"
                   id="fullName"
+                  name="fullName"
                   placeholder="Enter your full name"
                   type="text"
                 />
@@ -78,17 +154,19 @@ export default function RegisterPage() {
                 <input
                   className="form-input w-full rounded-lg border-border-light bg-background-light p-3 text-text-light placeholder:text-subtle-light focus:border-primary focus:ring-primary dark:border-border-dark dark:bg-gray-100 dark:text-text-dark dark:focus:border-primary"
                   id="email"
+                  name="email"
                   placeholder="Enter your email address"
                   type="email"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-text-light dark:text-text-dark" htmlFor="email">
+                <label className="text-sm font-medium text-text-light dark:text-text-dark" htmlFor="url">
                  Profile Picture
                 </label>
                 <input
                   className="form-input w-full rounded-lg border-border-light bg-background-light p-3 text-text-light placeholder:text-subtle-light focus:border-primary focus:ring-primary dark:border-border-dark dark:bg-gray-100 dark:text-text-dark dark:focus:border-primary"
-                  id="email"
+                  id="url"
+                  name="url"
                   placeholder="Enter your profile picture url"
                   type="url"
                 />
@@ -102,13 +180,17 @@ export default function RegisterPage() {
                   <input
                     className="form-input w-full rounded-lg border-border-light bg-background-light p-3 pr-10 text-text-light placeholder:text-subtle-light focus:border-primary focus:ring-primary dark:border-border-dark dark:bg-gray-100 dark:text-text-dark dark:focus:border-primary"
                     id="password"
+                    name="password"
                     placeholder="Create a strong password"
-                    type="password"
+                    type={!showPass ? "text" : "password"}
                   />
-                  <button type="button" className="absolute right-3 text-subtle-light dark:text-subtle-dark">
-                    {/* <span className="material-symbols-outlined text-xl">visibility_off</span> */}
-                   <FaRegEye/>
-                  </button>
+                  <button type="button" onClick={() => setshowPass(!showPass)}>
+                        {!showPass ? (
+                          <FaRegEyeSlash className="absolute right-5 top-4.5 sm:right-10   cursor-pointer text-gray-400" />
+                        ) : (
+                          <FaRegEye className="absolute right-5 top-4.5 sm:right-10  cursor-pointer text-gray-400" />
+                        )}
+                      </button>
                 </div>
 
                 {/* <div className="mt-2 space-y-1.5">
@@ -149,6 +231,9 @@ export default function RegisterPage() {
                 <input
                   id="terms"
                   type="checkbox"
+                  name="terms"
+                  checked={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
                   className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                 />
                 <label htmlFor="terms" className="text-sm text-subtle-light dark:text-subtle-dark">
@@ -158,12 +243,10 @@ export default function RegisterPage() {
               </div>
 
 
-              <div className="flex flex-col gap-4">
-                  <button className="flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 text-base font-bold text-white shadow-sm hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
-                    Log In
-                  </button>
-
-                  <div className="flex items-center gap-4">
+              {/* <div className="flex flex-col gap-4"> */}
+                  <input className="flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 text-base font-bold text-white shadow-sm hover:bg-slate-800 hover:cursor-pointer hover:shadow-md" value="Sign Up" type="submit" />
+                  </form>
+                  <div className="flex mt-2 items-center gap-4">
                     <hr className="w-full border-slate-300 dark:border-slate-700" />
                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                       OR
@@ -171,7 +254,7 @@ export default function RegisterPage() {
                     <hr className="w-full border-slate-300 dark:border-slate-700" />
                   </div>
 
-                  <button className="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-700 dark:bg-slate-700 px-6 text-base font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
+                  <button onClick={handleGoogleSignup} className="flex h-14 mt-2 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-700 dark:bg-slate-700 px-6 text-base font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
                     <svg
                     className="h-5 w-5"
                     fill="none"
@@ -197,12 +280,12 @@ export default function RegisterPage() {
                   </svg>
                     <span> Continue with Google </span> 
                   </button>
-                </div>
-            </form>
+                {/* </div> */}
+            
 
-            <p className="mt-8 text-center text-sm text-subtle-light dark:text-slate-700">
+            <Link to="login" className="mt-8 text-center text-sm text-subtle-light dark:text-slate-700">
               Already have an account? <a className="text-primary underline font-bold hover:cursor-pointer">Log in</a>
-            </p>
+            </Link>
           </div>
         </div>
       </main>
