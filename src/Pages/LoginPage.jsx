@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import Login from "../assets/Login.png";
+import axios from 'axios';
 
 
 function LoginPage() {
@@ -28,6 +29,27 @@ function LoginPage() {
       console.log(email, password);
       emailUserSignIn(email, password)
         .then((user) => {
+          axios.get(`http://localhost:5000/users?email=${email}`)
+          .then(res => {
+            axios.post('http://localhost:5000/jwt', {
+              email: email,
+              role: res.data?.role,
+            })
+            .then(logRes => {
+              console.log('Login action logged')
+               navigate(from);
+
+           })
+            .catch(logErr => console.log('Failed to log action:', logErr)); 
+            const loggedInUser = res.data;
+            // if(loggedInUser?.role === 'admin'){
+            //   navigate('/admin/dashboard');
+            // } else {
+             
+            // }
+          })
+          .catch(err => console.log(err));
+
           setLoading(false);
           // console.log(from)
           toast.success("Login Successful");
@@ -45,9 +67,32 @@ function LoginPage() {
       const handleGooglelogin = () => {
       googleUser()
         .then((user) => {
+          // console.log(user);
+          axios.get(`http://localhost:5000/users?email=${user.user.email}`)
+          .then(res => {
+            axios.post('http://localhost:5000/jwt', {
+              email: user.user.email,
+              role: res.data?.role,
+            })
+            .then(logRes => {
+              console.log('Login action logged')
+                        setLoading(false);
+
+              toast.success("Google Login Successful");
+               navigate(from) ;
+
+           })
+            .catch(logErr => console.log('Failed to log action:', logErr)); 
+            const loggedInUser = res.data;
+            // if(loggedInUser?.role === 'admin'){
+            //   navigate('/admin/dashboard');
+            // } else {
+             
+            // }
+          })
+          .catch(err => console.log(err));  
           setLoading(false);
-          toast.success("Google Login Successful");
-          navigate(from);
+          // navigate(from);
         })
         .catch((error) => {
           setLoading(false);
