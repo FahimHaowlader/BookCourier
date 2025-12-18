@@ -1,4 +1,6 @@
 import React from "react";
+import { useState,useEffect } from "react";
+import { Link } from "react-router";
 
 const LatestBooks = () => {
   const books = [
@@ -33,6 +35,20 @@ const LatestBooks = () => {
       img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCUEM__vclSDeRqIAqo6uWUKkGrWSM5JvNpUh_tL5yRpOpVx-yjQpu0KkWsNpEm5O9oWPnNHw7yc_T_-4CxtlwNEFDCJqVVhuTDlUFeAUQygeC06oxNI5-pWJmEFgAhOng2s7NW64Gb6nkUiUY-5ObCkuZtAs-6AuQzPVjaTP-A9FIbmoH_JLdQ4AVvB142IOKYXdB5B4YDwijZkQR7YLrudEV-PNdqT4kTykcNqg_0lruE8TxEiPJ2UlmLTdBepfOR3RIpcxKrWPs",
     },
   ];
+  const [latestBook,setLatestBook]=useState();
+  useEffect(()=>{
+    const fetchLatestBooks=async()=>{
+      try{
+        const response=await fetch('http://localhost:3000/latest-books');
+        const data=await response.json();
+        setLatestBook(data);
+        // console.log("Latest books data:",data);
+      }catch(error){
+        console.error("Error fetching latest books:",error);
+      }
+    };
+    fetchLatestBooks();
+  },[]);
 
   return (
     <section className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 py-16 bg-white dark:bg-slate-900">
@@ -48,25 +64,25 @@ const LatestBooks = () => {
         </div>
 
         <div className="mt-4 md:mt-0">
-          <button className="px-6 py-3 border border-gray-500 bg-primary text-white hover:cursor-pointer font-semibold rounded-xl hover:bg-slate-700 hover:border-slate-700 transition">
+          <Link to={"/books"} className="px-6 py-3 border border-gray-500 bg-primary text-white hover:cursor-pointer font-semibold rounded-xl hover:bg-slate-700 hover:border-slate-700 transition">
             View All Books
-          </button>
+          </Link>
         </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-        {books.map((book, index) => (
+        {latestBook && latestBook.map((book, index) => (
           <div
             key={index}
             className="flex flex-col gap-3 group cursor-pointer"
           >
             <div
               className="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg shadow-md group-hover:shadow-xl group-hover:-translate-y-2 transition-all duration-300"
-              style={{ backgroundImage: `url("${book.img}")` }}
+              style={{ backgroundImage: `url("${book.pic}")` }}
             ></div>
             <div>
               <p className="text-base font-medium text-[#0d141b] dark:text-slate-50 truncate">
-                {book.title}
+                {book.bookName}
               </p>
               <p className="text-sm text-slate-600 dark:text-slate-400">
                 {book.author}

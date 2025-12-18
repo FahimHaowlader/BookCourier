@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { IoIosArrowDropdown } from "react-icons/io";
+import { IoIosArrowDropup } from "react-icons/io";
+
+
 
 const FAQSection = () => {
   const faqs = [
@@ -58,8 +62,8 @@ const FAQSection = () => {
               <span className="text-lg font-bold text-[#0d141b] dark:text-slate-50">
                 {faq.question}
               </span>
-              <span className="material-symbols-outlined text-primary">
-                {openIndex === index ? "expand_less" : "expand_more"}
+              <span className="material-symbols-outlined text-2xl text-primary">
+                {openIndex === index ? <IoIosArrowDropup/> :<IoIosArrowDropdown/>}
               </span>
             </button>
             {openIndex === index && (

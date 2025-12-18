@@ -104,17 +104,20 @@ export default function BookDetailsPage() {
                 <span className="font-semibold  text-gray-800 dark:text-gray-800">Publisher :</span> <span className="col-span-2">Viking</span>
               </li>
               <li className="grid grid-cols-3 gap-2">
-                <span className="font-semibold  text-gray-800 dark:text-gray-800">Publication Date :</span> <span className="col-span-2">September 29, 2020</span>
+                <span className="font-semibold  text-gray-800 dark:text-gray-800">price :</span> <span className="col-span-2">Viking</span>
               </li>
-              <li className="grid grid-cols-3 gap-2">
+              {/* <li className="grid grid-cols-3 gap-2">
+                <span className="font-semibold  text-gray-800 dark:text-gray-800">Publication Date :</span> <span className="col-span-2">September 29, 2020</span>
+              </li> */}
+              {/* <li className="grid grid-cols-3 gap-2">
                 <span className="font-semibold  text-gray-800 dark:text-gray-800">Language :</span> <span className="col-span-2">English</span>
               </li>
               <li className="grid grid-cols-3 gap-2">
                 <span className="font-semibold  text-gray-800 dark:text-gray-800">Page Count :</span> <span className="col-span-2">304</span>
-              </li>
-              <li className="grid grid-cols-3 gap-2">
+              </li> */}
+              {/* <li className="grid grid-cols-3 gap-2">
                 <span className="font-semibold  text-gray-800 dark:text-gray-800">ISBN-13 :</span> <span className="col-span-2">978-0525559474</span>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

@@ -1,6 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import pic from "../assets/Register.png";
+import pic from "../assets/heroImage.avif";
+import pic2 from "../assets/herobanner2.avif";
+import pic3 from "../assets/pic11.avif";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -12,18 +14,21 @@ const HeroSlider = () => {
       title: "Dive into New Releases",
       desc: "Discover our curated selection of the newest books from every genre.",
       btn: "Shop Now",
+      pic: pic,
     },
     {
       label: "Premium Collections",
       title: "Exclusive Book Bundles",
       desc: "Save more with curated sets from bestselling authors.",
       btn: "Browse Bundles",
+      pic: pic3,
     },
     {
       label: "Get It Faster",
       title: "Lightning-Fast Delivery",
       desc: "Your favorite books delivered at top speed.",
       btn: "Order Now",
+      pic: pic2,
     },
   ];
 
@@ -43,14 +48,14 @@ const HeroSlider = () => {
 
               {/* Background image */}
               <img
-                src={pic}
+                src={slide.pic}
                 alt={slide.title}
                 className="absolute inset-0 w-full h-full object-cover"
               />
 
               {/* Content */}
               <div className="relative z-10 text-center max-w-2xl px-6">
-                <span className="text-md uppercase tracking-wide text-primary font-semibold">
+                <span className="text-md uppercase tracking-wide text-white font-semibold">
                   {slide.label}
                 </span>
 
@@ -58,7 +63,7 @@ const HeroSlider = () => {
                   {slide.title}
                 </h1>
 
-                <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
+                <p className="mt-4 text-lg text-white">
                   {slide.desc}
                 </p>
 

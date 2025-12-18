@@ -1,6 +1,6 @@
 import React from "react";
 import { BookOpen, Star, Users } from "lucide-react";
-import pic from '../assets/Register.png';
+import pic from '../assets/pic10.png';
 
 const Future = () => {
   const features = [

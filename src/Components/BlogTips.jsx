@@ -1,5 +1,9 @@
 import React from "react";
-import pic from "../assets/Register.png";
+import { IoIosArrowDropdown } from "react-icons/io";
+
+import pic from "../assets/pic6.avif";
+import pic1 from "../assets/pic8.avif";
+import pic2 from "../assets/pic7.avif";
 
 const BlogTips = () => {
   const posts = [
@@ -8,7 +12,7 @@ const BlogTips = () => {
       date: "Dec 1, 2024",
       excerpt:
         "Discover tips to efficiently browse, borrow, and enjoy your library experience like never before.",
-      img: pic,
+      img: pic1,
       link: "#",
     },
     {
@@ -16,7 +20,7 @@ const BlogTips = () => {
       date: "Nov 20, 2024",
       excerpt:
         "Explore the best science fiction books that take you on adventures across galaxies and time.",
-      img: pic,
+      img: pic2,
       link: "#",
     },
     {
@@ -63,7 +67,7 @@ const BlogTips = () => {
                 className="mt-4 inline-flex items-center text-primary font-bold hover:underline"
               >
                 Read More
-                <span className="material-symbols-outlined ml-1 text-base">arrow_forward</span>
+                <span className="material-symbols-outlined ml-4 text-xl"><IoIosArrowDropdown/></span>
               </a>
             </div>
           </div>

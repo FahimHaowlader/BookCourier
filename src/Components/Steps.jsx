@@ -1,5 +1,7 @@
 import React from 'react'
 import pic1 from '../assets/Register.png';
+import pic2 from '../assets/pic4.avif';
+import pic3 from '../assets/pic2.avif';
 
 const Steps = () => {
   return (
@@ -29,7 +31,7 @@ const Steps = () => {
         {/* Step 2 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <img
-            src={pic1}
+            src={pic2}
             alt="Delivery"
             className="rounded-lg shadow-xl order-2 md:order-1"
           />
@@ -54,7 +56,7 @@ const Steps = () => {
             </p>
           </div>
           <img
-            src={pic1}
+            src={pic3}
             alt="Enjoy Reading"
             className="rounded-lg shadow-xl"
           />
