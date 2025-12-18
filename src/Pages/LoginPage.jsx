@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link,useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../Context/AuthContext";
 import { toast } from "react-hot-toast";
 // import { MdEmail } from "react-icons/md";
@@ -8,134 +8,165 @@ import { toast } from "react-hot-toast";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import Login from "../assets/Login.png";
-import axios from 'axios';
-
+import axios from "axios";
 
 function LoginPage() {
-     const [showPass, setshowPass] = useState(true);
-   const location = useLocation();
-    const navigate = useNavigate();
+  const [showPass, setshowPass] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    const from = location?.state || "/";
-    console.log(location?.state);
-    const { emailUserSignIn, googleUser, setLoading } = useAuth();
+  const from = location?.state || "/";
+  console.log(location?.state);
+  const { emailUserSignIn, googleUser, setLoading } = useAuth();
 
-    const handleEmailLogin = (e) => {
-      e.preventDefault();
-      // console.log(from)
-      const form = e.target;
-      const email = form.email.value;
-      const password = form.password.value;
-      console.log(email, password);
-      emailUserSignIn(email, password)
-        .then((user) => {
-          axios.get(`http://localhost:5000/users?email=${email}`)
-          .then(res => {
-            axios.post('http://localhost:5000/jwt', {
-              email: email,
-              role: res.data?.role,
-            })
-            .then(logRes => {
-              console.log('Login action logged')
-               navigate(from);
-
-           })
-            .catch(logErr => console.log('Failed to log action:', logErr)); 
-            const loggedInUser = res.data;
-            // if(loggedInUser?.role === 'admin'){
-            //   navigate('/admin/dashboard');
-            // } else {
-             
-            // }
+  const handleEmailLogin = (e) => {
+    e.preventDefault();
+    // console.log(from)
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
+    emailUserSignIn(email, password)
+      .then((user) => {
+        axios
+          .get(`http://localhost:5000/users?email=${email}`)
+          .then((dbuser) => {
+            if (dbuser) {
+              axios
+                .post("http://localhost:5000/jwt", {
+                  email: dbuser.email,
+                  role: dbuser.role,
+                })
+                .then((logRes) => {
+                  console.log("Login action logged");
+                  setLoading(false);
+                  navigate(from);
+                })
+                .catch((logErr) =>{
+                  console.log("Failed to log action:", logErr)
+                  setLoading(false);
+            });
+              return;
+            }
+            else {
+              // If user does not exist in DB,
+              console.log("User not found in DB");
+            }
+         
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
+        setLoading(false);
+        // console.log(from)
+        toast.success("Login Successful");
+        navigate(from);
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error(error.message);
+        // alert(error.message);
+      }); 
+            
+           
+  };
 
-          setLoading(false);
-          // console.log(from)
-          toast.success("Login Successful");
-          navigate(from);
-
-        })
-        .catch((error) => {
-          setLoading(false);
-          toast.error(error.message);
-          console.log(error);
-          // alert(error.message);
-        });
-    };
-
-      const handleGooglelogin = () => {
-      googleUser()
-        .then((user) => {
-          // console.log(user);
-          axios.get(`http://localhost:5000/users?email=${user.user.email}`)
-          .then(res => {
-            axios.post('http://localhost:5000/jwt', {
-              email: user.user.email,
-              role: res.data?.role,
-            })
-            .then(logRes => {
-              console.log('Login action logged')
+  const handleGooglelogin = () => {
+    googleUser()
+      .then((user) => {
+        // console.log(user);
+        axios
+          .get(`http://localhost:5000/users?email=${user.user.email}`)
+          .then((dbuser) => {
+            if (dbuser) {
+              axios
+                .post("http://localhost:5000/jwt", {
+                  email: dbuser.email,
+                  role: dbuser.role,
+                })
+                .then((logRes) => {
+                  // console.log("Login action logged");
+                  setLoading(false);
+                  toast.success("Google Login Successful");
+                  navigate(from);
+                })
+                .catch((logErr) =>
+                  console.log("Failed to log action:", logErr)
+                );
+                return ;
+               } else {
+                // If user does not exist in DB, create a new user
+                axios
+                  .post("http://localhost:5000/users", {
+                    name: user.user.displayName,
+                    email: user.user.email,
+                    role: "member", // Default role
+                  })
+                  .then((createRes) => {
+                    // After creating the user, get the JWT
+                    axios
+                      .post("http://localhost:5000/jwt", {
+                        email: user.user.email,
+                        role: "member",
+                      })
+                      .then((logRes) => {
+                        // console.log("Login action logged");
                         setLoading(false);
-
-              toast.success("Google Login Successful");
-               navigate(from) ;
-
-           })
-            .catch(logErr => console.log('Failed to log action:', logErr)); 
-            const loggedInUser = res.data;
-            // if(loggedInUser?.role === 'admin'){
-            //   navigate('/admin/dashboard');
-            // } else {
-             
-            // }
+                        toast.success("Google Login Successful");
+                        navigate(from);
+                      })
+                      .catch((logErr) =>
+                        console.log("Failed to log action:", logErr)
+                      );
+                  })
+                  .catch((createErr) =>
+                    console.log("Failed to create user:", createErr)
+                  );
+                  setLoading(false);
+                  toast.success("Google Login Successful");
+                  navigate(from);
+                }
           })
-          .catch(err => console.log(err));  
-          setLoading(false);
-          // navigate(from);
-        })
-        .catch((error) => {
-          setLoading(false);
-          toast.error(error.message);
-        });
-    };
+          .catch((err) => console.log(err));
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error(error.message);
+      });
+  };
 
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-gray-100 dark:bg-gray-100  group/design-root overflow-hidden ">
-        <header className=" flex w-full items-center justify-between p-6 sm:px-10">
-         <div className="flex items-center gap-4 text-text-light dark:text-text-dark">
-                    <div className="flex items-center justify-center gap-1 lg:gap-2 px-0 lg:pl-20">
-                      <div className="text-primary size-7 text-slate-700">
-                        <svg
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z"
-                            fill="currentColor"
-                          ></path>
-                        </svg>
-                      </div>      
-                      <h2 className="text-xl font-bold tracking-tight text-slate-700">
-                        BookCourier
-                      </h2>
-                    </div>
-                  </div>
+      <header className=" flex w-full items-center justify-between p-6 sm:px-10">
+        <div className="flex items-center gap-4 text-text-light dark:text-text-dark">
+          <div className="flex items-center justify-center gap-1 lg:gap-2 px-0 lg:pl-20">
+            <div className="text-primary size-7 text-slate-700">
+              <svg
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold tracking-tight text-slate-700">
+              BookCourier
+            </h2>
+          </div>
+        </div>
       </header>
 
       <div className="layout-container flex h-full grow flex-col">
         <main className="flex flex-1">
           <div className="flex w-full flex-col lg:flex-row">
-
             {/* Left Side Banner */}
             <div className="relative hidden w-full flex-col items-center justify-center bg-slate-100 dark:bg-slate-100 lg:flex lg:w-1/2">
               <div className="w-full max-w-lg p-8">
                 <div
                   className="aspect-square w-full rounded-xl bg-cover bg-center bg-no-repeat"
                   style={{
-                    backgroundImage:
-                      `url(${Login})`,
+                    backgroundImage: `url(${Login})`,
                   }}
                 ></div>
 
@@ -144,7 +175,8 @@ function LoginPage() {
                     Your library, delivered.
                   </h2>
                   <p className="mt-2 text-slate-700 dark:text-slate-700">
-                    Request pickups or deliveries from nearby libraries with ease.
+                    Request pickups or deliveries from nearby libraries with
+                    ease.
                   </p>
                 </div>
               </div>
@@ -153,10 +185,9 @@ function LoginPage() {
             {/* Login Form */}
             <div className="flex w-full items-center justify-center p-6 lg:w-1/2 lg:p-12">
               <div className="w-full max-w-md space-y-4">
-            <form onSubmit={handleEmailLogin}>
-
-                {/* Branding */}
-                {/* <div className="text-center lg:text-left">
+                <form onSubmit={handleEmailLogin}>
+                  {/* Branding */}
+                  {/* <div className="text-center lg:text-left">
                   <div className="mb-6 flex items-center justify-center gap-3 lg:justify-start">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
                       <span className="material-symbols-outlined text-3xl text-white">
@@ -180,67 +211,75 @@ function LoginPage() {
                   </div>
                 </div> */}
 
-                {/* Inputs */}
-                <div className="flex flex-col gap-4">
+                  {/* Inputs */}
+                  <div className="flex flex-col gap-4">
+                    {/* Email */}
+                    <label className="flex flex-col">
+                      <p className="text-slate-900 dark:text-slate-900 text-base font-medium pb-2">
+                        Email Address
+                      </p>
+                      <div className="flex w-full items-stretch rounded-lg">
+                        <input
+                          name="email"
+                          type="email"
+                          placeholder="Enter your email"
+                          className="form-input flex w-full flex-1 rounded-lg text-black dark:text-black  bg-white dark:bg-white h-14 p-3.5 placeholder:text-slate-400 dark:placeholder:text-slate-500 "
+                        />
+                      </div>
+                    </label>
 
-                  {/* Email */}
-                  <label className="flex flex-col">
-                    <p className="text-slate-900 dark:text-slate-900 text-base font-medium pb-2">
-                      Email Address
-                    </p>
-                    <div className="flex w-full items-stretch rounded-lg"> 
-                      <input
-                      name="email"
-                        type="email"
-                        placeholder="Enter your email"
-                        className="form-input flex w-full flex-1 rounded-lg text-black dark:text-black  bg-white dark:bg-white h-14 p-3.5 placeholder:text-slate-400 dark:placeholder:text-slate-500 "
-                      />
-                    </div>
-                  </label>
+                    {/* Password */}
+                    <label className="flex flex-col">
+                      <p className="text-slate-900 dark:text-slate-900 text-base font-medium pb-2">
+                        Password
+                      </p>
+                      <div className="flex w-full items-stretch rounded-lg relative">
+                        <input
+                          name="password"
+                          type={!showPass ? "text" : "password"}
+                          placeholder="Enter your password"
+                          className="form-input flex w-full flex-1 rounded-lg text-slate-800 dark:text-slate-800 border border-slate-100 bg-white dark:bg-white h-14 p-3.5 pr-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 "
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setshowPass(!showPass)}
+                        >
+                          {!showPass ? (
+                            <FaRegEyeSlash className="absolute right-5 top-4.5 sm:right-10   cursor-pointer text-gray-400" />
+                          ) : (
+                            <FaRegEye className="absolute right-5 top-4.5 sm:right-10  cursor-pointer text-gray-400" />
+                          )}
+                        </button>
+                      </div>
+                    </label>
 
-                  {/* Password */}
-                  <label className="flex flex-col">
-                    <p className="text-slate-900 dark:text-slate-900 text-base font-medium pb-2">
-                      Password
-                    </p>
-                    <div className="flex w-full items-stretch rounded-lg relative">                    
-                      <input
-                      name="password"
-                        type={!showPass ? "text" : "password"}
-                        placeholder="Enter your password"
-                        className="form-input flex w-full flex-1 rounded-lg text-slate-800 dark:text-slate-800 border border-slate-100 bg-white dark:bg-white h-14 p-3.5 pr-12 placeholder:text-slate-400 dark:placeholder:text-slate-500 "
-                      />
-                       <button type="button" onClick={() => setshowPass(!showPass)}>
-                        {!showPass ? (
-                          <FaRegEyeSlash className="absolute right-5 top-4.5 sm:right-10   cursor-pointer text-gray-400" />
-                        ) : (
-                          <FaRegEye className="absolute right-5 top-4.5 sm:right-10  cursor-pointer text-gray-400" />
-                        )}
-                      </button>
-                    </div>
-                  </label>
-
-                  <Link className="text-slate-600 text-sm font-medium underline text-right hover:text-slate-800 hover:cursor-pointer">
-                    Forgot Password?
-                  </Link>
-                </div>
-             
-
-                {/* Actions */}
-                {/* <div className="flex flex-col gap-4"> */}
-                  <input type="submit" className="flex h-14 w-full mt-6 items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 text-base font-bold text-white shadow-sm hover:bg-slate-800 hover:cursor-pointer hover:shadow-md" value="Log In" />
-                   </form>
-
-                  <div className="flex items-center gap-4">
-                    <hr className="w-full border-slate-300 dark:border-slate-700" />
-                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                      OR
-                    </p>
-                    <hr className="w-full border-slate-300 dark:border-slate-700" />
+                    <Link className="text-slate-600 text-sm font-medium underline text-right hover:text-slate-800 hover:cursor-pointer">
+                      Forgot Password?
+                    </Link>
                   </div>
-                
-                  <button onClick={handleGooglelogin} className="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-700 dark:bg-slate-700 px-6 text-base font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 hover:cursor-pointer hover:shadow-md">
-                    <svg
+
+                  {/* Actions */}
+                  {/* <div className="flex flex-col gap-4"> */}
+                  <input
+                    type="submit"
+                    className="flex h-14 w-full mt-6 items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 text-base font-bold text-white shadow-sm hover:bg-slate-800 hover:cursor-pointer hover:shadow-md"
+                    value="Log In"
+                  />
+                </form>
+
+                <div className="flex items-center gap-4">
+                  <hr className="w-full border-slate-300 dark:border-slate-700" />
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                    OR
+                  </p>
+                  <hr className="w-full border-slate-300 dark:border-slate-700" />
+                </div>
+
+                <button
+                  onClick={handleGooglelogin}
+                  className="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-700 dark:bg-slate-700 px-6 text-base font-bold text-slate-800 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 hover:cursor-pointer hover:shadow-md"
+                >
+                  <svg
                     className="h-5 w-5"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -263,19 +302,21 @@ function LoginPage() {
                       fill="#EA4335"
                     ></path>
                   </svg>
-                    <span> Continue with Google </span> 
-                  </button>
+                  <span> Continue with Google </span>
+                </button>
                 {/* </div> */}
 
                 <p className="text-center text-sm font-medium text-slate-800 dark:text-slate-800">
                   Don't have an account?{" "}
-                  <Link to="/register" className="font-bold text-primary hover:underline hover:text-primary/80 hover:cursor-pointer">
+                  <Link
+                    to="/register"
+                    className="font-bold text-primary hover:underline hover:text-primary/80 hover:cursor-pointer"
+                  >
                     Register
                   </Link>
                 </p>
               </div>
             </div>
-
           </div>
         </main>
       </div>
