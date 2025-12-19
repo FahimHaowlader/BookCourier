@@ -72,7 +72,7 @@ const LatestBooks = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {latestBook && latestBook.map((book, index) => (
-          <div
+          <Link to={`/book/${book._id}`}
             key={index}
             className="flex flex-col gap-3 group cursor-pointer"
           >
@@ -88,7 +88,7 @@ const LatestBooks = () => {
                 {book.author}
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

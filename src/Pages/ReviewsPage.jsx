@@ -1,56 +1,55 @@
-
-
-
 import { useState } from "react";
-
+import pic from "../assets/person1.png";
+import pic2 from "../assets/person2.png";
+import pic3 from "../assets/person3.png";
 const ReviewsPage = () => {
  const reviews = [
     {
       name: "Sarah J.",
       role: "Avid Reader",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAF8uKdDOrTlAtNV-Xy_bACn51_OjARgG3y4lLEUKphmMXRvmqsONOUCc1u6-Eh9b_mkn4l9tADcmYdmoka_ousfbtJRF4_rruPiT8PWbgroQ6qwMhGKCZ9cBHefdCNfffVwUz6KWkJuxGKgExCjZJMxivLyjeau7wEJGD0tACbQnzXv88RyrcilMjHaiCtbN97NRfe3MiXv7LkYuOkKiolgQixEC5vQRg2jaxn_oRgB4To9tjYpdq7EDQfoNJVA2-ZCMuSESXGP4U",
+      img: pic,
       message: "BookCourier has completely changed my reading habits. I'm reading more than ever before because it's just so convenient. The selection is incredible!",
     },
     {
       name: "Sarah J.",
       role: "Avid Reader",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAF8uKdDOrTlAtNV-Xy_bACn51_OjARgG3y4lLEUKphmMXRvmqsONOUCc1u6-Eh9b_mkn4l9tADcmYdmoka_ousfbtJRF4_rruPiT8PWbgroQ6qwMhGKCZ9cBHefdCNfffVwUz6KWkJuxGKgExCjZJMxivLyjeau7wEJGD0tACbQnzXv88RyrcilMjHaiCtbN97NRfe3MiXv7LkYuOkKiolgQixEC5vQRg2jaxn_oRgB4To9tjYpdq7EDQfoNJVA2-ZCMuSESXGP4U",
+      img:pic2,
       message: "BookCourier has completely changed my reading habits. I'm reading more than ever before because it's just so convenient. The selection is incredible!",
     },
     {
       name: "Sarah J.",
       role: "Avid Reader",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAF8uKdDOrTlAtNV-Xy_bACn51_OjARgG3y4lLEUKphmMXRvmqsONOUCc1u6-Eh9b_mkn4l9tADcmYdmoka_ousfbtJRF4_rruPiT8PWbgroQ6qwMhGKCZ9cBHefdCNfffVwUz6KWkJuxGKgExCjZJMxivLyjeau7wEJGD0tACbQnzXv88RyrcilMjHaiCtbN97NRfe3MiXv7LkYuOkKiolgQixEC5vQRg2jaxn_oRgB4To9tjYpdq7EDQfoNJVA2-ZCMuSESXGP4U",
+      img:pic3,
       message: "BookCourier has completely changed my reading habits. I'm reading more than ever before because it's just so convenient. The selection is incredible!",
     },
     {
       name: "Sarah J.",
       role: "Avid Reader",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAF8uKdDOrTlAtNV-Xy_bACn51_OjARgG3y4lLEUKphmMXRvmqsONOUCc1u6-Eh9b_mkn4l9tADcmYdmoka_ousfbtJRF4_rruPiT8PWbgroQ6qwMhGKCZ9cBHefdCNfffVwUz6KWkJuxGKgExCjZJMxivLyjeau7wEJGD0tACbQnzXv88RyrcilMjHaiCtbN97NRfe3MiXv7LkYuOkKiolgQixEC5vQRg2jaxn_oRgB4To9tjYpdq7EDQfoNJVA2-ZCMuSESXGP4U",
+      img: pic,
       message: "BookCourier has completely changed my reading habits. I'm reading more than ever before because it's just so convenient. The selection is incredible!",
     },
     {
       name: "Michael B.",
       role: "Book Club President",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDTnT-4DmyKmTwsL62W1o_rrbF3SfEnd15qTZLIrKoun07sgaMwY0MuvB1YeuFkmF7DkcCqh3YdWNJrrAIfE572pWCRoIu0xKGbDXDbUvb-un0wKryG25ec4WkFI1sENUsZtHH1C0cpKndX-1Spjn2Or8rppDJ4GBb5surQTT-YHYLRR14k_tRdsqjPvBl23-AbF5BHffm89kyTv0YaW9VeIDVAgmL7IPX52bHRYbkQiOa0CcFpjRD3guiSlR3Skelpt9BPg38mB5g",
+      img: pic2,
       message: "As a busy professional, I never had time to go to the library. This service is a lifesaver. Fast, reliable, and the app is super easy to use. Highly recommend!",
     },
     {
       name: "Emily R.",
       role: "Parent & Educator",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEv5DmconfEMhi5fs8PE0O29QXsM1_xiLo0JlEvd2MgZ0XBX-J6ZQjyDAs3bXG0TyfGZqr33LoaWEutI6DeSbwoz-0f7czKAqBEhCfcRUAUnCt15QOp2T2STYcMo5I0rZXDsOEbEJCwMxUp7lOJ5HhK80xYUkhvltvpQ9rjcOrZAF33EJX8sdujNf7Nww3S38Mu7xYeMCntcJrs4q7nD97A2MJMBmMUKVieqJQsaiTThmnsJzYFzt1GeqqsgLunCeR2s22rIKuTbU",
+      img: pic3,
       message: "My kids are so excited every time the BookCourier package arrives. It's like a special gift just for them. It's fostered a real love for reading in our home.",
     },
     {
       name: "Emily R.",
       role: "Parent & Educator",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEv5DmconfEMhi5fs8PE0O29QXsM1_xiLo0JlEvd2MgZ0XBX-J6ZQjyDAs3bXG0TyfGZqr33LoaWEutI6DeSbwoz-0f7czKAqBEhCfcRUAUnCt15QOp2T2STYcMo5I0rZXDsOEbEJCwMxUp7lOJ5HhK80xYUkhvltvpQ9rjcOrZAF33EJX8sdujNf7Nww3S38Mu7xYeMCntcJrs4q7nD97A2MJMBmMUKVieqJQsaiTThmnsJzYFzt1GeqqsgLunCeR2s22rIKuTbU",
+      img: pic,
       message: "My kids are so excited every time the BookCourier package arrives. It's like a special gift just for them. It's fostered a real love for reading in our home.",
     },
     {
       name: "Emily R.",
       role: "Parent & Educator",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEv5DmconfEMhi5fs8PE0O29QXsM1_xiLo0JlEvd2MgZ0XBX-J6ZQjyDAs3bXG0TyfGZqr33LoaWEutI6DeSbwoz-0f7czKAqBEhCfcRUAUnCt15QOp2T2STYcMo5I0rZXDsOEbEJCwMxUp7lOJ5HhK80xYUkhvltvpQ9rjcOrZAF33EJX8sdujNf7Nww3S38Mu7xYeMCntcJrs4q7nD97A2MJMBmMUKVieqJQsaiTThmnsJzYFzt1GeqqsgLunCeR2s22rIKuTbU",
+      img: pic3,
       message: "My kids are so excited every time the BookCourier package arrives. It's like a special gift just for them. It's fostered a real love for reading in our home.",
     },
   ];

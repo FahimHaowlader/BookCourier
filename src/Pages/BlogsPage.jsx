@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import pic from "../assets/Register.png";
+import pic2 from "../assets/pic2.avif";
+import pic3 from "../assets/pic8.avif";
+import pic4 from "../assets/pic4.avif";
+import pic5 from "../assets/pic5.avif";
+import pic6 from "../assets/pic6.avif";
+import pic7 from "../assets/pic7.avif";
+
+import { IoIosArrowDropdown } from "react-icons/io";
+
 const allPosts = [
   {
     title: "5 Tips to Discover Hidden Library Gems",
@@ -12,28 +21,42 @@ const allPosts = [
     title: "Library News: New Arrivals This Month",
     category: "Library News",
     date: "Dec 1, 2024",
-    img: pic,
+    img: pic2,
     link: "#",
   },
   {
     title: "Interview with Author Jane Doe",
     category: "Featured Authors",
     date: "Nov 28, 2024",
-    img: pic,
+    img: pic3,
     link: "#",
   },
   {
     title: "Top 10 Sci-Fi Reads This Year",
     category: "Reading Tips",
     date: "Nov 20, 2024",
-    img: pic,
+    img: pic4,
     link: "#",
   },
   {
     title: "Behind the Scenes of City Libraries",
     category: "Library News",
     date: "Nov 15, 2024",
-    img: pic,
+    img: pic5,
+    link: "#",
+  },
+  {
+    title: "Meet the Author: John Smith",
+    category: "Featured Authors",
+    date: "Nov 10, 2024",
+    img: pic6,
+    link: "#",
+  },
+  {
+    title: "Meet the Author: John Smith",
+    category: "Featured Authors",
+    date: "Nov 10, 2024",
+    img: pic7,
     link: "#",
   },
   {
@@ -47,7 +70,49 @@ const allPosts = [
     title: "Meet the Author: John Smith",
     category: "Featured Authors",
     date: "Nov 10, 2024",
-    img: pic,
+    img: pic2,
+    link: "#",
+  },
+  {
+    title: "Meet the Author: John Smith",
+    category: "Featured Authors",
+    date: "Nov 10, 2024",
+    img: pic3,
+    link: "#",
+  },
+  {
+    title: "Meet the Author: John Smith",
+    category: "Featured Authors",
+    date: "Nov 10, 2024",
+    img: pic4,
+    link: "#",
+  },
+  {
+    title: "Meet the Author: John Smith",
+    category: "Featured Authors",
+    date: "Nov 10, 2024",
+    img: pic4,
+    link: "#",
+  },
+  {
+    title: "Meet the Author: John Smith",
+    category: "Featured Authors",
+    date: "Nov 10, 2024",
+    img: pic5,
+    link: "#",
+  },
+  {
+    title: "Meet the Author: John Smith",
+    category: "Featured Authors",
+    date: "Nov 10, 2024",
+    img: pic6,
+    link: "#",
+  },
+  {
+    title: "Meet the Author: John Smith",
+    category: "Featured Authors",
+    date: "Nov 10, 2024",
+    img: pic7,
     link: "#",
   },
   {
@@ -61,63 +126,7 @@ const allPosts = [
     title: "Meet the Author: John Smith",
     category: "Featured Authors",
     date: "Nov 10, 2024",
-    img: pic,
-    link: "#",
-  },
-  {
-    title: "Meet the Author: John Smith",
-    category: "Featured Authors",
-    date: "Nov 10, 2024",
-    img: pic,
-    link: "#",
-  },
-  {
-    title: "Meet the Author: John Smith",
-    category: "Featured Authors",
-    date: "Nov 10, 2024",
-    img: pic,
-    link: "#",
-  },
-  {
-    title: "Meet the Author: John Smith",
-    category: "Featured Authors",
-    date: "Nov 10, 2024",
-    img: pic,
-    link: "#",
-  },
-  {
-    title: "Meet the Author: John Smith",
-    category: "Featured Authors",
-    date: "Nov 10, 2024",
-    img: pic,
-    link: "#",
-  },
-  {
-    title: "Meet the Author: John Smith",
-    category: "Featured Authors",
-    date: "Nov 10, 2024",
-    img: pic,
-    link: "#",
-  },
-  {
-    title: "Meet the Author: John Smith",
-    category: "Featured Authors",
-    date: "Nov 10, 2024",
-    img: pic,
-    link: "#",
-  },
-  {
-    title: "Meet the Author: John Smith",
-    category: "Featured Authors",
-    date: "Nov 10, 2024",
-    img: pic,
-    link: "#",
-  },
-  {
-    title: "Meet the Author: John Smith",
-    category: "Featured Authors",
-    date: "Nov 10, 2024",
-    img: pic,
+    img: pic5,
     link: "#",
   },
   // Add more posts as needed
@@ -191,7 +200,7 @@ const BlogsPage = () => {
               >
                 Read More
                 <span className="material-symbols-outlined text-base">
-                  arrow_forward
+                 <IoIosArrowDropdown size={20} />
                 </span>
               </a>
             </div>

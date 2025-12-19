@@ -1,4 +1,13 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { MdBookmarkBorder } from "react-icons/md";
+import { LuShoppingCart } from "react-icons/lu";
+import { CiStar } from "react-icons/ci";
+import { useParams } from "react-router";
+import { useAuth } from "../Context/AuthContext";
+import { useNavigate } from "react-router";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 
 const initialReviews = [
   {
@@ -33,8 +42,85 @@ const initialReviews = [
   },
 ];
 
+
+
 export default function BookDetailsPage() {
   const [reviews, setReviews] = useState(initialReviews);
+  const [book, setBook] = useState(null);
+  const { user } = useAuth();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  useEffect(() => {
+    // Fetch book details from API or use static data
+    const fetchBookDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/book/${id}`); // Replace with actual book ID or endpoint
+        const data = await response.json();
+        setBook(data);
+        console.log("Book details data:", data);
+      } catch (error) {
+        console.error("Error fetching book details:", error);
+      }
+    };
+    fetchBookDetails();
+  }, []);
+
+  const handleOrder = async () => {
+    if (!user) {
+      alert("Please log in to place an order.");
+      navigate("/login");
+      return;
+    }
+    // Logic to handle ordering the book
+    await axios.post('http://localhost:3000/orders', {  
+      useremail: user.email,
+      bookId: id,
+      bookName: book.bookName,
+      price: book.price,
+      status:"pending",
+      isPaid: false,
+      date: new Date().toISOString(),
+      bookAuthor: book.author,
+    })
+    .then(response => {
+      console.log('Order placed successfully:', response.data);
+      toast.success('Order placed successfully!');
+    })
+    .catch(error => {
+      console.error('Error placing order:', error);
+      toast.error('Failed to place order. Please try again.');
+    });
+    // alert(`Order placed for "${book?.bookName}"`);
+
+  };
+
+const handleWishlist = async () => {
+    if (!user) {
+      alert("Please log in to add to wishlist.");
+      navigate("/login");
+      return;
+    }
+    // Logic to handle adding the book to wishlist
+     await axios.post('http://localhost:3000/wishlists', {  
+      useremail: user.email,
+      bookId: id,
+      bookName: book.bookName,
+      price: book.price,
+      bookPic: book.pic,
+      bookAuthor: book.author,
+    })
+    .then(response => {
+      console.log('Order placed successfully:', response.data);
+      toast.success(`Book added to your wishlist!`);
+    })
+    .catch(error => {
+      console.error('Error placing order:', error);
+      toast.error('Failed to add to wishlist. Please try again.');
+    });
+    // alert(`Order placed for "${book?.bookName}"`);
+
+    // alert(`"${book?.bookName}" added to your wishlist!`);
+  };
 
   return (
     <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-20 py-8 md:py-12">
@@ -56,16 +142,16 @@ export default function BookDetailsPage() {
         <div className="md:col-span-1">
           <div
             className="w-full aspect-[2/3] bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden rounded-xl shadow-lg"
-            style={{ backgroundImage: `url(https://lh3.googleusercontent.com/aida-public/AB6AXuBYuAiO0eetBh2vvMLoh74deHijI1BgCb_pRxY0X3UA7WdkB8cKbfpFrYHlh9cZf3YGIF4pjTaAuh49vU-HwT52RGYr4uTpKJioeWjrzquecxgQBrxLKAF0Lf7V0lrj5GiQhQrlGJSu-EfYNV70_ow5wP0yPY3x2LLZVMoVEP_B33MBu7ZhL5T75wMz5WkSEFoHSVcGLTB8uy9bS6WhCQmXYr5fQvPeK5JBOFX2AqHrKqcs0gQ9PsYyoWHulpAEs0qaI8xE6umb-0s)` }}
+            style={{ backgroundImage: `url(${book?.pic})` }}
           ></div>
         </div>
         <div className="md:col-span-2 flex flex-col gap-4">
-          <p className="text-primary dark:text-primary/90 text-sm font-bold uppercase tracking-wider">Fiction</p>
+          <p className="text-primary dark:text-primary/90 text-sm font-bold uppercase tracking-wider">{book?.category}</p>
           <h1 className="text-[#0d141b] dark:text-[#0d141b] text-4xl lg:text-5xl font-black leading-tight tracking-tighter">
-            The Midnight Library
+            {book?.bookName}
           </h1>
           <p className="text-slate-600 dark:text-slate-600 text-md">
-            by <a className="hover:font-medium text-primary " href="#">Matt Haig</a>
+            by <a className="hover:font-medium text-primary " href="#">{book?.author}</a>
           </p>
           {/* <div className="flex gap-2 pt-2 flex-wrap">
             <div className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary/10 dark:bg-primary/20 px-3">
@@ -83,17 +169,16 @@ export default function BookDetailsPage() {
           </div> */}
 
           <p className="mt-4 text-gray-800 dark:text-gray-800 leading-relaxed">
-            Between life and death there is a library, and within that library, the shelves go on forever. Every book provides a chance to try another life you could have lived. To see how things would be different if you had made other choices... Would you have done anything different, if you had the chance to undo your regrets?
-          </p>
+            {book?.description}          </p>
          { /* Action Buttons */}
             <div className="md:flex gap-4 space-y-3">  
-          <button
+          <button onClick={handleOrder}
           className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
-            <span className="material-symbols-outlined">shopping_cart</span> Order Now
+            <span className="material-symbols-outlined"><LuShoppingCart size={20}/></span> Order Now
           </button>
-          <button
+          <button onClick={handleWishlist}
           className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
-            <span className="material-symbols-outlined">shopping_cart</span> Order Now
+            <span className="material-symbols-outlined"><MdBookmarkBorder size={20}/></span> Add to Wishlist
           </button>
             </div>
           {/* Book Details */}
@@ -101,10 +186,10 @@ export default function BookDetailsPage() {
             <h3 className="text-lg font-bold text-[#0d141b] dark:text-[#0d141b] mb-4">Book Details</h3>
             <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-600">
               <li className="grid grid-cols-3 gap-2">
-                <span className="font-semibold  text-gray-800 dark:text-gray-800">Publisher :</span> <span className="col-span-2">Viking</span>
+                <span className="font-semibold  text-gray-800 dark:text-gray-800">Publisher :</span> <span className="col-span-2">{book?.publisher}</span>
               </li>
               <li className="grid grid-cols-3 gap-2">
-                <span className="font-semibold  text-gray-800 dark:text-gray-800">price :</span> <span className="col-span-2">Viking</span>
+                <span className="font-semibold  text-gray-800 dark:text-gray-800">price :</span> <span className="col-span-2">${book?.price}</span>
               </li>
               {/* <li className="grid grid-cols-3 gap-2">
                 <span className="font-semibold  text-gray-800 dark:text-gray-800">Publication Date :</span> <span className="col-span-2">September 29, 2020</span>
@@ -161,7 +246,7 @@ export default function BookDetailsPage() {
                   <div className="flex items-center gap-1 text-gray-400 dark:text-gray-500">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button key={star} type="button" className="hover:text-yellow-400 dark:hover:text-yellow-400 transition-colors">
-                        <span className="material-symbols-outlined text-4xl">star</span>
+                        <span className="material-symbols-outlined text-4xl"><CiStar/></span>
                       </button>
                     ))}
                   </div>
@@ -205,7 +290,7 @@ export default function BookDetailsPage() {
                           key={i}
                           className={`material-symbols-outlined text-lg ${i < review.rating ? "filled-star" : "text-yellow-400/40"}`}
                         >
-                          star
+                          <CiStar/>
                         </span>
                       ))}
                     </div>

@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useAuth } from "../Context/AuthContext";
+import { MdDeleteOutline } from "react-icons/md";
+
+import axios from "axios";
+import { Link } from "react-router";
 
 const initialWishlist = [
   {
@@ -54,18 +59,41 @@ const initialWishlist = [
 ];
 
 export default function WishlistPage() {
-  const [wishlist, setWishlist] = useState(initialWishlist);
+  const [wishlist, setWishlist] = useState(null);
   const [search, setSearch] = useState("");
+   const { user } = useAuth();
+  // console.log("User in InvoicePage:", user?.email);
+  
 
-  const handleDelete = (id) => {
-    setWishlist((prev) => prev.filter((book) => book.id !== id));
+  useEffect(() => {
+  const fetchOrders = async () => {
+    try {
+      // console.log("Fetching orders for user:", user?.email);
+      const response = await axios.get(
+        `http://localhost:3000/wishlists?email=${user?.email}`
+      );
+      // console.log("Orders fetched:", response.data);
+      setWishlist(response.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
   };
 
-  const filteredWishlist = wishlist.filter(
-    (book) =>
-      book.title.toLowerCase().includes(search.toLowerCase()) ||
-      book.author.toLowerCase().includes(search.toLowerCase())
-  );
+
+    fetchOrders();
+    
+
+}, [user?.email]);
+
+  const handleDelete = (id) => {
+    setWishlist((prev) => prev.filter((book) => book._id !== id));
+  };
+
+  // const filteredWishlist = wishlist.filter(
+  //   (book) =>
+  //     book.title.toLowerCase().includes(search?.toLowerCase()) ||
+  //     book.author.toLowerCase().includes(search?.toLowerCase())
+  // );
 
   return (
     <div className="max-w-7xl mx-auto p-8">
@@ -75,7 +103,7 @@ export default function WishlistPage() {
           My Wishlist
         </h1>
         <p className="text-base text-slate-500 dark:text-slate-500">
-          You have {wishlist.length} books on your wishlist
+          You have {wishlist?.length} books on your wishlist
         </p>
       </div>
 
@@ -91,50 +119,54 @@ export default function WishlistPage() {
       </div>
 
       {/* Wishlist Grid */}
+      {
+        wishlist && (
       <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
-        {filteredWishlist.map((book) => (
-          <div key={book.id} className="flex flex-col gap-4 group">
+        {wishlist.map((book) => (
+          <div key={book._id} className="flex flex-col gap-4 group">
             <div className="relative">
               <div
                 className="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover rounded-lg shadow-md"
-                style={{ backgroundImage: `url(${book.image})` }}
+                style={{ backgroundImage: `url(${book.bookPic})` }}
               ></div>
               <button
-                onClick={() => handleDelete(book.id)}
+                onClick={() => handleDelete(book._id)}
                 className="absolute top-2 right-2 bg-white/70 hover:cursor-pointer dark:bg-black/50 backdrop-blur-sm text-red-500 dark:text-red-400 rounded-full w-8 h-8 flex items-center justify-center hover:bg-white dark:hover:bg-black/90 transition-opacity opacity-0 group-hover:opacity-100"
               >
                 <span className="material-symbols-outlined text-base">
-                  D
+                  <MdDeleteOutline size={20} />
                 </span>
               </button>
             </div>
             <div className="flex flex-col">
               <p className="text-base font-medium text-slate-900 dark:text-slate-900truncate">
-                {book.title}
+                {book.bookName}
               </p>
               <p className="text-sm text-slate-700 dark:text-slate-700">
-                {book.author}
+                {book.bookAuthor}
               </p>
-              <a
+              <Link to={"/book/" + book.bookId}
                 href="#"
                 className="text-sm text-blue-400 font-medium mt-1 hover:underline"
               >
                 View Details
-              </a>
+              </Link>
             </div>
-            <button 
+            {/* <button 
            className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
               Order Now
-            </button>
+            </button> */}
           </div>
         ))}
-
-        {filteredWishlist.length === 0 && (
+        </div>
+        )
+}
+       
+        {!wishlist && (
           <p className="col-span-full text-center text-slate-700 dark:text-slate-700 text-2xl">
             No books found.
           </p>
         )}
-      </div>
     </div>
   );
 }

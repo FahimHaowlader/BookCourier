@@ -4,7 +4,7 @@ const ContactPage = () => {
   return (
     <section className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 py-16 bg-slate-800">
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-[#0d141b] dark:text-slate-50">
+        <h1 className="text-3xl md:text-3xl font-extrabold text-[#0d141b] dark:text-slate-50">
           Contact Us
         </h1>
         <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">

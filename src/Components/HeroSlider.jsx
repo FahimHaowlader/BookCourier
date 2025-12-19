@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import pic from "../assets/heroImage.avif";
-import pic2 from "../assets/herobanner2.avif";
+import pic2 from "../assets/pic12.avif";
 import pic3 from "../assets/pic11.avif";
 
 import "swiper/css";

@@ -15,7 +15,7 @@ import {
 const context = createContext();
 export const useAuth = () => useContext(context);
 
-const AuthContext = ({children}) => {
+export const AuthContext = ({children}) => {
  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [adminLoading, setAdminLoading] = useState(true);

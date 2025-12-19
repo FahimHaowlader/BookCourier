@@ -1,7 +1,8 @@
 import React from "react";
-
+import { useAuth } from "../Context/AuthContext";
 
 export default function ProfilePage() {
+  const { user } = useAuth();
   return (
   
       <div className="mx-auto max-w-5xl py-4">
@@ -21,20 +22,20 @@ export default function ProfilePage() {
                   className="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-32 w-32"
                   style={{
                     backgroundImage:
-                      "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBGLkn_TAsR_ytCkI1KIYyuCrt6Eg2TFUOiLTv-3j16gK4N6RKTfbV0G3zwBAWydvCDWYJvqYb9ao1W0YTkaxCokxTCEC5rC3-EQQm8c0j69oAQMGieXN3Hxz1XXimRM_qVy4_sI91SkFv7rmUtqJSSkqfqIkeud0l44dE4Pg_3W5KSVj_50aqK7c0KYgEg6rtf0-vcftQGPcQ4NuA6arAxCgSx3T6daMpSddLRfnQqC-bIB-5ecY3YFNFkyIfymiLllYjDRU0UhxA')",
+                      `url(${user?.photoURL || 'https://i.ibb.co/7CQVJNm/placeholder.png'})`,
                   }}
                 ></div>
 
                 <div className="flex flex-col justify-center">
                   <p className="text-[#0d141b] dark:text-[#0d141b] text-[22px] font-bold leading-tight tracking-[-0.015em]">
-                    Alexandre V.
+                    {user?.displayName || "Alexandre V."}
                   </p>
                   <p className="text-[#4c739a] dark:text-[#4c739a] text-base font-normal leading-normal">
-                    alex.v@email.com
+                    {user?.email || "alex.v@email.com"}
                   </p>
-                  <p className="text-[#4c739a] dark:text-[#4c739a] text-base font-normal leading-normal mt-1">
+                  {/* <p className="text-[#4c739a] dark:text-[#4c739a] text-base font-normal leading-normal mt-1">
                     Member since Jan 2023
-                  </p>
+                  </p> */}
                 </div>
 
                 <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-100 dark:bg-slate-800 text-[#0d141b] dark:text-slate-200 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
@@ -61,7 +62,7 @@ export default function ProfilePage() {
                     id="fullName"
                     className="form-input w-full rounded-lg text-slate-700  dark:text-slate-700  border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-background-dark h-12 p-3 "
                     placeholder="Enter your full name"
-                    defaultValue="Alexandre V."
+                    value={user?.displayName || "Alexandre V."}
                   />
                 </div>
 
@@ -74,7 +75,7 @@ export default function ProfilePage() {
                     id="email"
                     readOnly
                     className="form-input w-full rounded-lg text-slate-800 dark:text-slate-800 border border-slate-300 dark:border-slate-300 bg-slate-200 dark:bg-slate-200 h-12 p-3 cursor-not-allowed"
-                    defaultValue="alex.v@email.com"
+                    value={user?.email || "xyz@gmai.com"}
                   />
                 </div>
 

@@ -1,5 +1,8 @@
 import React from "react";
-
+import ContactPage from "./ContactPage";
+import pic from "../assets/person1.png";
+import pic2 from "../assets/person2.png";
+import pic3 from "../assets/person3.png";
 const AboutPage = () => {
   return (
     <section className="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 py-16 space-y-16 bg-slate-800">
@@ -34,10 +37,10 @@ const AboutPage = () => {
         <h2 className="text-3xl font-bold text-[#0d141b] dark:text-slate-50 mb-8 text-center">Meet the Team</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { name: "Alice M.", role: "Founder & CEO", img: "https://via.placeholder.com/150" },
-            { name: "John D.", role: "CTO", img: "https://via.placeholder.com/150" },
-            { name: "Sarah L.", role: "Operations Manager", img: "https://via.placeholder.com/150" },
-            { name: "Michael B.", role: "Head of Delivery", img: "https://via.placeholder.com/150" },
+            { name: "Alice M.", role: "Founder & CEO", img: pic },
+            { name: "John D.", role: "CTO", img: pic2},
+            { name: "Sarah L.", role: "Operations Manager", img: pic3 },
+            { name: "Michael B.", role: "Head of Delivery", img: pic },
           ].map((member, idx) => (
             <div key={idx} className="bg-white dark:bg-slate-800/50 p-6 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 flex flex-col items-center">
               <img
@@ -88,6 +91,7 @@ const AboutPage = () => {
           ))}
         </div>
       </div>
+      <ContactPage/>
     </section>
   );
 };
