@@ -11,7 +11,7 @@ import { useAuth } from "../Context/AuthContext";
 const UserLayout = () => {
   const { user } = useAuth();
    const NavberLinks = [
-    { to: "/profile", label: "Home", icon: <GoHome size={18} /> },
+    { to: "/profile", label: "Profile", icon: <GoHome size={18} /> },
     { to: "/invoice", label: "Invoice", icon: <TbFileInvoice size={18} /> },
     { to: "/my-orders", label: "Orders", icon: <LuShoppingCart size={18} /> },
     { to: "/my-wishlist", label: "Wishlist", icon: <MdBookmarkBorder size={18} /> },

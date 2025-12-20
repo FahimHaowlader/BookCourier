@@ -1,30 +1,57 @@
 import React, { useState } from "react";
+import { useAuth } from "../Context/AuthContext";
+import axios from "axios";
+import {toast} from "react-hot-toast";
 
 export default function AddBookPage() {
-  const [bookName, setBookName] = useState("");
-  const [author, setAuthor] = useState("");
-  const [status, setStatus] = useState("Published");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState(null);
+  const { user } = useAuth();
+  // const [bookName, setBookName] = useState("");
+  // const [author, setAuthor] = useState("");
+  // const [status, setStatus] = useState("Published");
+  // const [price, setPrice] = useState("");
+  // const [image, setImage] = useState(null);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setImage(URL.createObjectURL(file));
+  //   }
+  // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    const bookData = { bookName, author, status, price, image };
+    const form = e.target;
+    const bookName = form.bookName.value;
+    const author = form.author.value;
+    const status = form.status.value;
+    const category = form.category.value;
+    const price = form.price.value;
+    const image = form.pic.value;
+    const description = form.description.value;
+    const publisher = form.publisher.value;
+    //  console.log("User Email:", user?.email);
+
+     
+     
+
+    const bookData = { bookName, description, author, publisher, status,category, price : Number(price), pic :image ,sellerEmail:user?.email};
     console.log("Submitted Book:", bookData);
-    alert("Book submitted! Check console for data.");
+    await axios.post("http://localhost:3000/books", bookData)
+    .then((response) => {
+      // console.log("Book added successfully:", response.data);
+      toast.success("Book added successfully!");
+      form.reset();
+    })
+    .catch((error) => {
+      toast.error("Failed to add book. Please try again.");
+    });
+    // alert("Book submitted! Check console for data.");
     // Reset form
-    setBookName("");
-    setAuthor("");
-    setStatus("Published");
-    setPrice("");
-    setImage(null);
+    // setBookName("");
+    // setAuthor("");
+    // setStatus("Published");
+    // setPrice("");
+    // setImage(null);
   };
 
   return (
@@ -43,7 +70,7 @@ export default function AddBookPage() {
 
       <form onSubmit={handleSubmit} className="rounded-xl border border-slate-200 dark:border-slate-200 bg-white dark:bg-white p-6 flex flex-col gap-6">
         {/* Book Image */}
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">
             Book Image
           </p>
@@ -62,16 +89,17 @@ export default function AddBookPage() {
             )}
             <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
           </label>
-        </div>
+        </div> */}
 
         {/* Book Name & Author */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <label className="flex flex-col">
             <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">Book Name</p>
             <input
+              name="bookName"
               type="text"
-              value={bookName}
-              onChange={(e) => setBookName(e.target.value)}
+              // value={bookName}
+              // onChange={(e) => setBookName(e.target.value)}
               placeholder="Enter the book title"
               className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 h-10 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
               required
@@ -82,9 +110,34 @@ export default function AddBookPage() {
             <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">Book Author</p>
             <input
               type="text"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
+              name="author"
+              // value={author}
+              // onChange={(e) => setAuthor(e.target.value)}
               placeholder="Enter the author's full name"
+               className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 h-10 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              required
+            />
+          </label>
+        </div>
+        {/* Pic & Publisher */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <label className="flex flex-col">
+            <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">Pic url</p>
+            <input
+              type="url"
+              name="pic"
+              placeholder="Enter the book pic url"
+              className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 h-10 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              required
+            />
+          </label>
+
+          <label className="flex flex-col">
+            <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">Publisher</p>
+            <input
+              type="text"
+              name="publisher"
+              placeholder="Enter the publisher's full name"
                className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 h-10 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
               required
             />
@@ -96,8 +149,7 @@ export default function AddBookPage() {
           <label className="flex flex-col">
             <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">Status</p>
             <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
+              name="status"
               className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 h-10 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
             >
               <option>Published</option>
@@ -113,16 +165,67 @@ export default function AddBookPage() {
               </div>
               <input
                 type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                name="price"
                 placeholder="0"
-                step="10"
                 className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b]  border border-slate-300 dark:border-slate-300 bg-slate-200 dark:bg-slate-200 h-14 p-[15px] pl-8 text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 required
               />
             </div>
           </label>
         </div>
+        {/* Catagory & gmail */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <label className="flex flex-col">
+            <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">Catagory</p>
+            <select
+              name="category"
+              className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 h-10 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
+            >
+              <option value="Romance" >Romance</option>
+              <option value={"Mystery"}>Mystery</option>
+              <option value={"Fiction"}>Fiction</option>
+              <option value={"Motivational"}>Motivational</option>
+              <option value={"Fantasy"}>Fantasy</option>
+            </select>
+          </label>
+
+          <label className="flex flex-col">
+            <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">Email</p>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                {/* <span className="text-slate-500 dark:text-slate-400">$</span> */}
+              </div>
+              <input
+                type="text"
+                value={user?.email}
+                name="email"
+                className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b]  border border-slate-300 dark:border-slate-300 bg-slate-200 dark:bg-slate-200 h-14 p-[15px] pl-8 text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
+                required
+              />
+            </div>
+          </label>
+        </div>
+
+
+           <div className="grid grid-cols-1 gap-6">
+          <label className="flex flex-col">
+            <p className="text-[#0d141b] dark:text-[#0d141b] text-base font-medium leading-normal pb-2">Description</p>
+            {/* <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 h-10 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
+            >
+              
+            </select> */}
+            <textarea
+              name="description"
+              rows={4}
+              placeholder="Book Description"
+              className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
+            ></textarea>
+          </label>
+          </div>
+        
 
         {/* Action Buttons */}
         <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200 dark:border-slate-200">

@@ -1,15 +1,27 @@
 import React from 'react'
 import { NavLink, Outlet } from 'react-router'
+   import { GoHome } from "react-icons/go";
+import { MdAdd } from "react-icons/md";
+import { RiArchiveStackLine } from "react-icons/ri";
+import { LuShoppingBag } from "react-icons/lu";
+import { useAuth } from '../Context/AuthContext';
+import axios from 'axios';
+
+
 
 const LibrarianLayout = () => {
+const {user} = useAuth();
    const NavberLinks = [
-    { to: "/add-book", label: "Add Book" },
-    { to: "/my-books", label: "My Books" },
-    { to: "/orders", label: "Orders" },
+ 
+      { to: "/profile", label: "Profile", icon: <GoHome size={18} /> },
+    { to: "/add-book", label: "Add Book" ,icon:<MdAdd size={18}/>},
+    { to: "/my-books", label: "My Books",icon:<RiArchiveStackLine size={18}/> },
+    { to: "/orders", label: "Orders",icon:<LuShoppingBag size={18}/> },
       
   ];
 
   return (
+    
     <div className="flex h-screen w-full bg-slate-50 dark:bg-slate-50 font-display text-slate-800 dark:text-slate-400">
       {/* Sidebar */}
       <aside className="flex h-auto w-64 flex-col justify-between border-r border-slate-300 dark:border-slate-300 bg-white dark:bg-white p-4">
@@ -19,15 +31,15 @@ const LibrarianLayout = () => {
               className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
               style={{
                 backgroundImage:
-                  "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3FTXFzqZrIY0ctXZ-3qQz69ozrf52P9msyxo0OVjd-pSkcJtJ5Lh4DbsPQbjn_F63QXRWus49B1lTpjUID61NMQd-YyVmr0lUx_OE312D3xO3-l18DZoPiZfsiwDsmiu3dNKiBH-hp5uIs6KV3Lm30x0FYSxbUEspfA3IQFoA6d5N0BEgkGe26fV8bLuPdl-ohgM8_Wo4DIVubDreJC_oAORmCR2q-gtdCFCRpmHGKgrK8dqxERVwHxs_3GFfVDxNyg0TnFbFZM4')",
+                  `url(${user?.photoURL})`,
               }}
             ></div>
             <div className="flex flex-col">
               <h1 className="text-[#0d141b]  dark:text-[#0d141b] text-base font-semibold leading-normal">
-                Alexandre V.
+                {user?.displayName}
               </h1>
-              <p className="text-[#4c739a] dark:text-slate-500 text-[15px] font-normal leading-normal">
-                alex.v@email.com
+              <p className="text-[#4c739a] dark:text-slate-500 text-[10px] font-normal leading-normal">
+                {user?.email}
               </p>
             </div>
           </div>
@@ -45,7 +57,7 @@ const LibrarianLayout = () => {
                   }
                 >
                   <span className="material-symbols-outlined">
-                    Dashboard</span>
+                    {item.icon}</span>
                   {item.label}
                 </NavLink>
               

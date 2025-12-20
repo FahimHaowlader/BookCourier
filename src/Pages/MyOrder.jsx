@@ -141,9 +141,9 @@ export default function MyOrderPage() {
                  {new Date(order.date).toLocaleDateString()}
                 </td>
                 <td className="text-center px-6 py-4 whitespace-nowrap">
-                  { order.status === "in-transit" ? (
+                  { order.status === "shipped" ? (
                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-semibold bg-blue-200 text-blue-800 dark:bg-blue-200 dark:text-blue-800">
-                    In Transit
+                    Shipped
                   </span> 
                   ) : order.status === "pending" ? (
                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-semibold bg-yellow-200 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-800">
@@ -153,9 +153,9 @@ export default function MyOrderPage() {
                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium  bg-green-200 text-success dark:bg-green-200 text-green-800 dark:text-green-800  ">
                     Delivered
                   </span>
-                  ) : order.status === "cancelled" ? (
+                  ) : order.status === "canceled" ? (
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-200 text-red-700 dark:bg-red-200 dark:text-red-700">
-                    Cancelled
+                    Canceled
                   </span>
                   ) :(<></>)
                 }
@@ -180,7 +180,7 @@ export default function MyOrderPage() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
                   
-                  { order.status === 'cancelled' ? (
+                  { order.status === 'canceled' ? (
                     <span className="text-slate-700 dark:text-slate-700">—</span>
                   ) : order.isPaid ? (
                     <button className="h-8 px-3 font-medium text-blue-400 rounded-md text-sm hover:cursor-pointer transition-colors hover:underline">

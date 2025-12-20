@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useAuth } from "../Context/AuthContext";
+import axios from "axios";
+import { MdAdd } from "react-icons/md";
+import { Link } from "react-router";
 
 const initialBooks = [
   {
@@ -28,25 +32,42 @@ const initialBooks = [
 ];
 
 export default function MyBooksPage() {
-  const [books, setBooks] = useState(initialBooks);
+  const { user } = useAuth();
+  const [books, setBooks] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 4;
 
-  const totalPages = Math.ceil(books.length / booksPerPage);
-  const displayedBooks = books.slice(
-    (currentPage - 1) * booksPerPage,
-    currentPage * booksPerPage
-  );
+  useEffect(() => {
+      const fetchBooks = async () => {
+        try {
+          if (user?.email) {
+          const response = await axios.get('http://localhost:3000/my-books/' + user.email );
+          console.log("Fetched books:", response.data);
+          setBooks(response.data);
+          }
+        } catch (error) {
+          console.error("Error fetching books:", error);
+        }
+        
+      };
+      fetchBooks();
+    // Fetch books from API if needed
+  }, [user?.email]);
+  // const totalPages = Math.ceil((books?.length || 0) / booksPerPage);
+  // const displayedBooks = books?.slice(
+  //   (currentPage - 1) * booksPerPage,
+  //   currentPage * booksPerPage
+  // );
 
-  const handleEdit = (bookId) => {
-    const book = books.find((b) => b.id === bookId);
-    alert(`Edit book: ${book.title}`);
-  };
+  // const handleEdit = (bookId) => {
+  //   const book = books.find((b) => b.id === bookId);
+  //   alert(`Edit book: ${book.title}`);
+  // };
 
-  const handlePageChange = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
-  };
+  // const handlePageChange = (page) => {
+  //   if (page < 1 || page > totalPages) return;
+  //   setCurrentPage(page);
+  // };
 
   return (
     <div className="p-10">
@@ -55,14 +76,16 @@ export default function MyBooksPage() {
         <h1 className="text-4xl font-bold  text-black dark:text-black ">
           My Books
         </h1>
-        <button 
+        <Link to="/add-book" 
          className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
-          <span className="material-symbols-outlined">add</span>
+          <span className="material-symbols-outlined"><MdAdd size={18}/></span>
           Add New Book
-        </button>
+        </Link>
       </div>
 
       {/* Table */}
+      {
+        books && (
       <div className="overflow-x-auto  rounded-xl border border-slate-200 dark:border-slate-200">
         <table className="w-full">
           <thead>
@@ -79,20 +102,20 @@ export default function MyBooksPage() {
             </tr>
           </thead>
           <tbody>
-            {displayedBooks.map((book) => (
+            { books.map((book) => (
               <tr
-                key={book.id}
+                key={book._id}
                 className="border-b bg-white border-slate-200 hover:cursor-pointer dark:border-slate-200 hover:bg-slate-100 dark:hover:bg-slate-100"
               >
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-4">
                     <img
-                      src={book.cover}
-                      alt={book.title}
+                      src={book.pic}
+                      alt={book.bookName}
                       className="w-10 h-10 object-cover rounded-md"
                     />
                     <span className="text-sm font-medium text-slate-800 dark:text-slate-800">
-                      {book.title}
+                      {book.bookName}
                     </span>
                   </div>
                 </td>
@@ -152,6 +175,14 @@ export default function MyBooksPage() {
           </button>
         </div> */}
       </div>
+        )
+      }
+
+      {(!books || books.length === 0) && (
+        <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-10">
+          You have not added any books yet.
+        </p>
+      )}
     </div>
   );
 }
