@@ -2,9 +2,9 @@
 
 **BookCourier** is a full-stack library delivery management system that allows users to request book pickup or delivery from nearby libraries. It is designed to help students, researchers, and readers borrow and return books conveniently without physically visiting a library.
 
-🔗 **Live Website:** bookcourier02.netlify.app
-🔗 **Client Repository:** https://github.com/FahimHaowlader/BookCourier  
-🔗 **Server Repository:** https://github.com/FahimHaowlader/BookCourier-backend  
+🔗 **Live Website:** https://bookcourier02.netlify.app/  
+🔗 **Client Repository:** https://github.com/FahimHaowlader/BookCourier    
+🔗 **Server Repository:** https://github.com/FahimHaowlader/BookCourier-backend   
 
 ---
 
