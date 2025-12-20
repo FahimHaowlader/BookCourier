@@ -345,15 +345,15 @@ export default function RegisterPage() {
               </button>
               {/* </div> */}
 
-              <Link
+              <p
                 to="login"
                 className="mt-8 text-center text-sm text-subtle-light dark:text-slate-700"
               >
                 Already have an account?{" "}
-                <a className="text-primary underline font-bold hover:cursor-pointer">
+                <Link to={'/login'} className="text-primary underline font-bold hover:cursor-pointer">
                   Log in
-                </a>
-              </Link>
+                </Link>
+              </p>
             </div>
           </div>
         </main>
