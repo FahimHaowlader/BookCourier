@@ -49,7 +49,7 @@ export const AuthContext = ({children}) => {
   useEffect(() => {
     const userStatus = onAuthStateChanged(auth, (user) => {
       if (user) {
-        axios.get(`http://localhost:3000/users/${user.email}`)
+        axios.get(`https://book-courier-backend-six.vercel.app/users/${user.email}`)
         .then((res) => {
           // console.log("Fetched user from DB:", res.data);
           user.role =  res.data.role; // Assign role to user object

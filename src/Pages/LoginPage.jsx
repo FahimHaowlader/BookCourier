@@ -32,7 +32,7 @@ function LoginPage() {
     console.log(email, password);
     emailUserSignIn(email, password)
         .then((user) => {
-          axios.get(`http://localhost:3000/users/${user.user.email}`)
+          axios.get(`https://book-courier-backend-six.vercel.app/users/${user.user.email}`)
           .then((res) => {
             // console.log("Fetched user from DB:", res.data);
             // user.role = res.data.role; // Assign role to user object
@@ -58,7 +58,7 @@ function LoginPage() {
     googleUser()
         .then((user) => {
           console.log("Google user:", user);
-          axios.post("http://localhost:3000/users", { email: user.user.email, role: 'member', name: user.user.displayName })
+          axios.post("https://book-courier-backend-six.vercel.app/users", { email: user.user.email, role: 'member', name: user.user.displayName })
           .then((res) => {
             // console.log("User added to DB:", res.data);
             // const updatedUser = { ...user, role: res.data.role };

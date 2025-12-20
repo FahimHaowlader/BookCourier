@@ -51,7 +51,7 @@ export default function RegisterPage() {
       userInfoUpdate(userInfo)
         .then(() => {
           axios
-            .post("http://localhost:3000/users", {
+            .post("https://book-courier-backend-six.vercel.app/users", {
               name: name,
               email: email,             
               role: "member",
@@ -88,7 +88,7 @@ export default function RegisterPage() {
           googleUser()
         .then((user) => {
           console.log("Google user:", user);
-          axios.post("http://localhost:3000/users", { email: user.user.email, role: 'member', name: user.user.displayName })
+          axios.post("https://book-courier-backend-six.vercel.app/users", { email: user.user.email, role: 'member', name: user.user.displayName })
           .then((res) => {
             // console.log("User added to DB:", res.data);
             // user.role = res.data.role; // Assign role to user object

@@ -37,7 +37,7 @@ export default function AddBookPage() {
 
     const bookData = { bookName, description, author, date, publisher, status,category, price : Number(price), pic :image ,sellerEmail:user?.email};
     console.log("Submitted Book:", bookData);
-    await axios.post("http://localhost:3000/books", bookData)
+    await axios.post("https://book-courier-backend-six.vercel.app/books", bookData)
     .then((response) => {
       // console.log("Book added successfully:", response.data);
       toast.success("Book added successfully!");

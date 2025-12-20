@@ -10,7 +10,7 @@ const AllBookPage = () => {
   useEffect(() => {
     const fetchAllBooks = async () => {
       try {
-        const response = await fetch('http://localhost:3000/books');
+        const response = await fetch('https://book-courier-backend-six.vercel.app/books');
         const data = await response.json();
         setAllBooks(data);
         console.log("All books data:", data);
@@ -110,10 +110,10 @@ const AllBookPage = () => {
             >
               <div
                 className="aspect-[3/4] bg-cover bg-center rounded-t-xl"
-                style={{ backgroundImage: `url(${book.cover})` }}
+                style={{ backgroundImage: `url(${book.pic})` }}
               />
               <div className="p-4">
-                <h3 className="font-semibold">{book.title}</h3>
+                <h3 className="font-semibold">{book.bookName}</h3>
                 <p className="text-sm text-slate-600">{book.author}</p>
                 <p className="text-lg font-bold mt-2"> $ {book.price}</p>
               </div>

@@ -70,7 +70,7 @@ export default function WishlistPage() {
     try {
       // console.log("Fetching orders for user:", user?.email);
       const response = await axios.get(
-        `http://localhost:3000/wishlists?email=${user?.email}`
+        `https://book-courier-backend-six.vercel.app/wishlists?email=${user?.email}`
       );
       // console.log("Orders fetched:", response.data);
       setWishlist(response.data);
@@ -88,7 +88,7 @@ export default function WishlistPage() {
 const handleDelete = async (id) => {
   try {
     const response = await axios.delete(
-      `http://localhost:3000/wishlists/${id}`
+      `https://book-courier-backend-six.vercel.app/wishlists/${id}`
     );
 
     // console.log("Book deleted from wishlist:", response.data);

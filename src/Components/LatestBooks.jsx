@@ -39,7 +39,7 @@ const LatestBooks = () => {
   useEffect(()=>{
     const fetchLatestBooks=async()=>{
       try{
-        const response=await fetch('http://localhost:3000/latest-books');
+        const response=await fetch('https://book-courier-backend-six.vercel.app/latest-books');
         const data=await response.json();
         setLatestBook(data);
         // console.log("Latest books data:",data);

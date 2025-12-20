@@ -17,7 +17,7 @@ export default function MyOrderPage() {
     try {
       // console.log("Fetching orders for user:", user?.email);
       const response = await axios.get(
-        `http://localhost:3000/orders?email=${user?.email}`
+        `https://book-courier-backend-six.vercel.app/orders?email=${user?.email}`
       );
       // console.log("Orders fetched:", response.data);
       setOrders(response.data);
@@ -34,7 +34,7 @@ export default function MyOrderPage() {
 
 const handlePay = async (orderId) => {
   try {
-    await axios.patch(`http://localhost:3000/orders/${orderId}`, {
+    await axios.patch(`https://book-courier-backend-six.vercel.app/orders/${orderId}`, {
       isPaid: true,
     });
 
@@ -54,7 +54,7 @@ const handlePay = async (orderId) => {
 
 const handleCancel = async (orderId) => {
   try {
-    await axios.patch(`http://localhost:3000/orders/${orderId}`, {
+    await axios.patch(`https://book-courier-backend-six.vercel.app/orders/${orderId}`, {
       status: "canceled",
     });
 

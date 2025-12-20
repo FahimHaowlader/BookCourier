@@ -86,7 +86,7 @@ export default function OrdersPage() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/all-orders");
+        const response = await axios.get("https://book-courier-backend-six.vercel.app/all-orders");
         console.log("Orders fetched:", response.data);
         setOrders(response.data);
       } catch (error) {
@@ -118,7 +118,7 @@ export default function OrdersPage() {
 
   const updateStatus = async (id, newStatus) => {
 
-     await axios.patch(`http://localhost:3000/orders/${id}`, {
+     await axios.patch(`https://book-courier-backend-six.vercel.app/orders/${id}`, {
       status: newStatus,
     })
     .then(response => {

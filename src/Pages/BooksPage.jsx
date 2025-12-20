@@ -43,7 +43,7 @@ export default function BooksPage() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/books');
+        const response = await axios.get('https://book-courier-backend-six.vercel.app/books');
         const data = response.data;
         setBooks(data);
         // console.log("Books data:", data);
@@ -67,7 +67,7 @@ export default function BooksPage() {
   // const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
 
   const handleDelete = async  (id) => {
-    await axios.delete(`http://localhost:3000/books/${id}`)
+    await axios.delete(`https://book-courier-backend-six.vercel.app/books/${id}`)
     .then((response) => {
       // console.log("Book deleted:", response.data);
       toast.success("Book deleted successfully");

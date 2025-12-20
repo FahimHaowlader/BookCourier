@@ -54,7 +54,7 @@ export default function BookDetailsPage() {
     // Fetch book details from API or use static data
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/book/${id}`); // Replace with actual book ID or endpoint
+        const response = await fetch(`https://book-courier-backend-six.vercel.app/book/${id}`); // Replace with actual book ID or endpoint
         const data = await response.json();
         setBook(data);
         console.log("Book details data:", data);
@@ -72,7 +72,7 @@ export default function BookDetailsPage() {
       return;
     }
     // Logic to handle ordering the book
-    await axios.post('http://localhost:3000/orders', {  
+    await axios.post('https://book-courier-backend-six.vercel.app/orders', {  
       useremail: user.email,
       bookId: id,
       buyer: user.displayName,
@@ -102,7 +102,7 @@ const handleWishlist = async () => {
       return;
     }
     // Logic to handle adding the book to wishlist
-     await axios.post('http://localhost:3000/wishlists', {  
+     await axios.post('https://book-courier-backend-six.vercel.app/wishlists', {  
       useremail: user.email,
       bookId: id,
       bookName: book.bookName,

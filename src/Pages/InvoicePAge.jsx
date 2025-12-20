@@ -20,7 +20,7 @@ export default function InvoicePage() {
     try {
       // console.log("Fetching orders for user:", user?.email);
       const response = await axios.get(
-        `http://localhost:3000/orders?email=${user?.email}`
+        `https://book-courier-backend-six.vercel.app/orders?email=${user?.email}`
       );
       // console.log("Orders fetched:", response.data);
 

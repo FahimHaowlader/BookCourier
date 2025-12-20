@@ -26,7 +26,7 @@ export default function AllUsersPage() {
     // Reset to first page when filters change
     const downloadUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/all-users')
+        const response = await axios.get('https://book-courier-backend-six.vercel.app/all-users')
         console.log("Fetched users:", response.data);
         setUsers(response.data);
       } catch (error) {
@@ -61,7 +61,7 @@ export default function AllUsersPage() {
 
   /* ---------------- ACTION HANDLERS ---------------- */
   const makeAdmin = async (id) => {
-    await axios.patch(`http://localhost:3000/users/${id}`, { role: "admin" })
+    await axios.patch(`https://book-courier-backend-six.vercel.app/users/${id}`, { role: "admin" })
     .then(response => {
       console.log("User role updated:", response.data);
       toast.success("User promoted to Admin");
@@ -76,7 +76,7 @@ export default function AllUsersPage() {
   };
 
   const makeLibrarian = async (id) => {
-    await axios.patch(`http://localhost:3000/users/${id}`, { role: "librarian" })
+    await axios.patch(`https://book-courier-backend-six.vercel.app/users/${id}`, { role: "librarian" })
     .then(response => {
       console.log("User role updated:", response.data);
       toast.success("User promoted to Librarian");
@@ -91,7 +91,7 @@ export default function AllUsersPage() {
   };
 
    const makeMember = async (id) => {
-    await axios.patch(`http://localhost:3000/users/${id}`, { role: "member" })
+    await axios.patch(`https://book-courier-backend-six.vercel.app/users/${id}`, { role: "member" })
     .then(response => {
       console.log("User role updated:", response.data);
       toast.success("User demoted to Member");
