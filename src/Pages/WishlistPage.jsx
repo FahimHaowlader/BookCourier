@@ -85,9 +85,21 @@ export default function WishlistPage() {
 
 }, [user?.email]);
 
-  const handleDelete = (id) => {
+const handleDelete = async (id) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:3000/wishlists/${id}`
+    );
+
+    // console.log("Book deleted from wishlist:", response.data);
+
+    // ✅ Update state AFTER successful delete
     setWishlist((prev) => prev.filter((book) => book._id !== id));
-  };
+  } catch (error) {
+    console.error("Error deleting book from wishlist:", error);
+  }
+};
+
 
   // const filteredWishlist = wishlist.filter(
   //   (book) =>

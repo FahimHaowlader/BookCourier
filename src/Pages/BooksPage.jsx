@@ -142,17 +142,17 @@ export default function BooksPage() {
                     {book.category}
                   </td>
                   <td className="px-4 py-3 text-sm text-slate-500 dark:text-slate-500">
-                    {book.date}
+                    {book.date ? new Date(book.date).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="text-center p  x-4 py-3">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        book.published
+                       book.status ==="published" 
                           ? "bg-green-100 text-green-800 dark:bg-green-100 dark:text-green-800"
                           : "bg-slate-100 text-slate-800 dark:bg-slate-100 dark:text-slate-800"
                       }`}
                     >
-                      {book.published ? "Published" : "Unpublished"}
+                      {book.status ==="published" ? "Published" : "Unpublished"}
                     </span>
                   </td>
                   <td className="flex items-center justify-center text-center px-4 py-3">

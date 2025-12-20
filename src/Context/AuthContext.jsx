@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import auth from "../Firebase";
 import React from "react";
+import axios from "axios";
 import {
     onAuthStateChanged,
   createUserWithEmailAndPassword,
@@ -48,8 +49,19 @@ export const AuthContext = ({children}) => {
   useEffect(() => {
     const userStatus = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
-        setLoading(false);
+        axios.get(`http://localhost:3000/users/${user.email}`)
+        .then((res) => {
+          // console.log("Fetched user from DB:", res.data);
+          user.role =  res.data.role; // Assign role to user object
+          setUser(user);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+          setUser(user); // Set user even if role fetch fails
+          setLoading(false);
+        });
+  
       } else {
         setUser(null);
         setLoading(false);

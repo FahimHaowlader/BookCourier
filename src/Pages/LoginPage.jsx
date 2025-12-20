@@ -10,14 +10,18 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import Login from "../assets/Login.png";
 import axios from "axios";
 
+
 function LoginPage() {
+  
+  
   const [showPass, setshowPass] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
   const from = location?.state || "/";
-  console.log(location?.state);
-  const { emailUserSignIn, googleUser, setLoading } = useAuth();
+  // console.log(location?.state);
+
+  const { emailUserSignIn, googleUser, setLoading,setUser } = useAuth();
 
   const handleEmailLogin = (e) => {
     e.preventDefault();
@@ -27,111 +31,54 @@ function LoginPage() {
     const password = form.password.value;
     console.log(email, password);
     emailUserSignIn(email, password)
-      .then((user) => {
-        axios
-          .get(`http://localhost:5000/users?email=${email}`)
-          .then((dbuser) => {
-            if (dbuser) {
-              axios
-                .post("http://localhost:5000/jwt", {
-                  email: dbuser.email,
-                  role: dbuser.role,
-                })
-                .then((logRes) => {
-                  console.log("Login action logged");
-                  setLoading(false);
-                  navigate(from);
-                })
-                .catch((logErr) =>{
-                  console.log("Failed to log action:", logErr)
-                  setLoading(false);
-            });
-              return;
-            }
-            else {
-              // If user does not exist in DB,
-              console.log("User not found in DB");
-            }
-         
+        .then((user) => {
+          axios.get(`http://localhost:3000/users/${user.user.email}`)
+          .then((res) => {
+            // console.log("Fetched user from DB:", res.data);
+            // user.role = res.data.role; // Assign role to user object
+             setLoading(false);
+            // console.log(from)
+           toast.success("Login Successful");
+           navigate(from);
           })
-          .catch((err) => console.log(err));
-        setLoading(false);
-        // console.log(from)
-        toast.success("Login Successful");
-        navigate(from);
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error(error.message);
-        // alert(error.message);
-      }); 
-            
-           
-  };
+          .catch((err) => {
+            setLoading(false);
+            console.error("Error fetching user from DB:", err);
+          });
+
+        })
+        .catch((error) => {
+          setLoading(false);
+          toast.error(error.message);
+          // alert(error.message);
+        });
+    };
 
   const handleGooglelogin = () => {
     googleUser()
-      .then((user) => {
-        // console.log(user);
-        axios
-          .get(`http://localhost:5000/users?email=${user.user.email}`)
-          .then((dbuser) => {
-            if (dbuser) {
-              axios
-                .post("http://localhost:5000/jwt", {
-                  email: dbuser.email,
-                  role: dbuser.role,
-                })
-                .then((logRes) => {
-                  // console.log("Login action logged");
-                  setLoading(false);
-                  toast.success("Google Login Successful");
-                  navigate(from);
-                })
-                .catch((logErr) =>
-                  console.log("Failed to log action:", logErr)
-                );
-                return ;
-               } else {
-                // If user does not exist in DB, create a new user
-                axios
-                  .post("http://localhost:5000/users", {
-                    name: user.user.displayName,
-                    email: user.user.email,
-                    role: "member", // Default role
-                  })
-                  .then((createRes) => {
-                    // After creating the user, get the JWT
-                    axios
-                      .post("http://localhost:5000/jwt", {
-                        email: user.user.email,
-                        role: "member",
-                      })
-                      .then((logRes) => {
-                        // console.log("Login action logged");
-                        setLoading(false);
-                        toast.success("Google Login Successful");
-                        navigate(from);
-                      })
-                      .catch((logErr) =>
-                        console.log("Failed to log action:", logErr)
-                      );
-                  })
-                  .catch((createErr) =>
-                    console.log("Failed to create user:", createErr)
-                  );
-                  setLoading(false);
-                  toast.success("Google Login Successful");
-                  navigate(from);
-                }
+        .then((user) => {
+          console.log("Google user:", user);
+          axios.post("http://localhost:3000/users", { email: user.user.email, role: 'member', name: user.user.displayName })
+          .then((res) => {
+            // console.log("User added to DB:", res.data);
+            // const updatedUser = { ...user, role: res.data.role };
+            // setUser(updatedUser);
+            // user.role = res.data.role; // Assign role to user object
+            // console.log("Google user with role:", user);
+              setLoading(false);
+          toast.success("Google Login Successful");
+          navigate(from);
           })
-          .catch((err) => console.log(err));
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error(error.message);
-      });
-  };
+          .catch((err) => {
+            console.error("Error adding user to DB:", err);
+          });
+        
+        })
+        .catch((error) => {
+          setLoading(false);
+          toast.error(error.message);
+        });
+    };
 
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-gray-100 dark:bg-gray-100  group/design-root overflow-hidden ">

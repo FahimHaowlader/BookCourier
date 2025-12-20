@@ -11,6 +11,7 @@ import axios from "axios";
 export default function RegisterPage() {
   const [showPass, setshowPass] = useState(true);
   const [checked, setChecked] = useState(false);
+    const from = location?.state || "/";
 
   const navigate = useNavigate();
   const { setLoading, createEmailUser, userInfoUpdate, googleUser } = useAuth();
@@ -27,7 +28,7 @@ export default function RegisterPage() {
     console.log(name, url, email, password);
     const userInfo = {
       displayName: name,
-      photoURL: url,
+      photoURL: url,     
     };
     if (!checked) {
       toast.error("You must agree to the Terms of Service and Privacy Policy");
@@ -50,35 +51,28 @@ export default function RegisterPage() {
       userInfoUpdate(userInfo)
         .then(() => {
           axios
-            .post("https://bookcourier-server.vercel.app/users", {
+            .post("http://localhost:3000/users", {
               name: name,
-              email: email,
-              photoURL: url,
+              email: email,             
               role: "member",
             })
             .then((response) => {
-              console.log("User data saved:", response.data);
-              axios
-                .post("/jwt", {
-                  email: email,
-                  role: "member",
-                })
-                .then(() => {
-                  setLoading(false);
-                  toast.success("Profile Updated Successfully");
-                  navigate("/");
-                })
-                .catch((error) => {
-                  console.error("Error saving user info:", error);
-                  toast.error("Failed to save user info");
-                })
-                .catch((error) => {
-                  console.error("Error saving user data:", error);
-                });
+              // console.log("User data saved:", response.data);
+              // user.role = response.data.role; // Assign role to user object
+              setLoading(false);
+              toast.success("Registration Successful");
+              navigate(from);
+
+            })
+            .catch((error) => {
+              setLoading(false);
+                  // console.error("Error saving user data:", error);
+            });
             })
             .catch((e) => {
+              setLoading(false);
               toast.error("Failed to Update Profile");
-              console.log(e);
+              // console.log(e);
             });
         })
         .catch((e) => {
@@ -87,79 +81,29 @@ export default function RegisterPage() {
           //
           // alert(e.message);
         });
-    });
+    
+      }
 
     const handleGoogleSignup = () => {
-      googleUser()
+          googleUser()
         .then((user) => {
-          console.log("Google User:", user);
-          axios
-            .get("https://bookcourier-server.vercel.app/users", {
-              params: { email: user.email },
-            })
-            .then((dbuser) => {
-              if (dbuser) {
-                axios
-                  .post("https://bookcourier-server.vercel.app/jwt", {
-                    email: dbuser.email,
-                    role: dbuser.role || "member",
-                  })
-                  .then((response) => {
-                    console.log("JWT Token:", response.data);
-                    localStorage.setItem("access-token", response.data);
-                    toast.success("Google Sign Up Successful");
-                    setLoading(false);
-                    navigate("/");
-                  })
-                  .catch((error) => {
-                    console.error("Error fetching JWT token:", error);
-                    setLoading(false);
-                  });
-                return;
-              } else {
-                axios
-                  .post("https://bookcourier-server.vercel.app/users", {
-                    name: user.displayName,
-                    email: user.email,
-                    photoURL: user.photoURL,
-                    role: "member",
-                  })
-                  .then((response) => {
-                    console.log("User data saved:", response.data);
-                    axios
-                      .post("https://bookcourier-server.vercel.app/jwt", {
-                        email: user.email,
-                        role: "member",
-                      })
-                      .then((response) => {
-                        console.log("JWT Token:", response.data);
-                        localStorage.setItem("access-token", response.data);
-                        setLoading(false);
-                        navigate("/");
-                        toast.success("Google Sign Up Successful");
-                      })
-                      .catch((error) => {
-                        console.error("Error fetching JWT token:", error);
-                        setLoading(false);
-                      })
-                      .catch((error) => {
-                        console.error("Error saving user data:", error);
-                      });
-                  });
-                // toast.error("User already exists");
-                setLoading(false);
-                // navigate("/");
-                return;
-              }
-            })
-            .catch((error) => {
-              console.error("Error checking user existence:", error);
-            });
+          console.log("Google user:", user);
+          axios.post("http://localhost:3000/users", { email: user.user.email, role: 'member', name: user.user.displayName })
+          .then((res) => {
+            // console.log("User added to DB:", res.data);
+            // user.role = res.data.role; // Assign role to user object
+              setLoading(false);
+          toast.success("Google Login Successful");
+          navigate(from);
+          })
+          .catch((err) => {
+            console.error("Error adding user to DB:", err);
+          });
+        
         })
         .catch((error) => {
-          console.error("Google Sign Up Error:", error);
           setLoading(false);
-          // toast.error("Google Sign Up Failed");
+          toast.error(error.message);
         });
     };
 
@@ -416,4 +360,4 @@ export default function RegisterPage() {
       </div>
     );
   };
-}
+

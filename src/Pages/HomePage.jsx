@@ -11,9 +11,12 @@ import ReadyToDiveIn from '../Components/ReadyToDriveIn'
 import NewsletterSignup from '../Components/NewsletterSignup'
 import BlogTips from '../Components/BlogTips'
 import FAQSection from '../Components/FAQSection'
+import { useAuth } from '../Context/AuthContext'
 // import Footer from '../Components/Footer'
 
 const HomePage = () => {
+    const {user} = useAuth();
+    if(user) console.log('home page user:', user.role);
 return (
 <div className="font-display bg-background-light dark:bg-background-dark text-[#0d141b] dark:text-slate-200 min-h-screen w-full overflow-x-hidden">
 {/* <div className='fixed top-0 w-full bg-white/60 dark:bg-background-dark/60 backdrop-blur-sm z-50'>

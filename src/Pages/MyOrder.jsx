@@ -32,6 +32,46 @@ export default function MyOrderPage() {
 
 }, [user?.email]);
 
+const handlePay = async (orderId) => {
+  try {
+    await axios.patch(`http://localhost:3000/orders/${orderId}`, {
+      isPaid: true,
+    });
+
+    // ✅ Update UI without mutating state
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order._id === orderId
+          ? { ...order, isPaid: true }
+          : order
+      )
+    );
+  } catch (error) {
+    console.error("Error processing payment:", error);
+  }
+};
+
+
+const handleCancel = async (orderId) => {
+  try {
+    await axios.patch(`http://localhost:3000/orders/${orderId}`, {
+      status: "canceled",
+    });
+
+    // ✅ Update UI immutably
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order._id === orderId
+          ? { ...order, status: "canceled" }
+          : order
+      )
+    );
+  } catch (error) {
+    console.error("Error cancelling order:", error);
+  }
+};
+
+
   return (
     <div className="max-w-7xl mx-auto p-8">
       {/* Page Heading */}
@@ -149,7 +189,7 @@ export default function MyOrderPage() {
                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-semibold bg-yellow-200 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-800">
                     Pending
                   </span>
-                ) : order.status === "pelivered" ? (
+                ) : order.status === "delivered" ? (
                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium  bg-green-200 text-success dark:bg-green-200 text-green-800 dark:text-green-800  ">
                     Delivered
                   </span>
@@ -163,7 +203,7 @@ export default function MyOrderPage() {
 
                 <td className="text-center px-6 py-4 whitespace-nowrap">
                   {
-                    order.status !== 'cancelled' ? (
+                    order.status !== 'canceled'  ? (
                  
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium ${
                     order.isPaid ? "bg-green-200 text-success dark:bg-green-200 text-green-800 dark:text-green-800" :
@@ -180,7 +220,7 @@ export default function MyOrderPage() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
                   
-                  { order.status === 'canceled' ? (
+                  { order.status == 'canceled' ? (
                     <span className="text-slate-700 dark:text-slate-700">—</span>
                   ) : order.isPaid ? (
                     <button className="h-8 px-3 font-medium text-blue-400 rounded-md text-sm hover:cursor-pointer transition-colors hover:underline">
@@ -188,11 +228,11 @@ export default function MyOrderPage() {
                     </button>
                   ) : (
                     <div className="hover:cursor-pointer space-x-2">
-                      <button 
+                      <button onClick={()=>handlePay(order._id)}
                       className="h-8 px-4 font-medium text-white hover:text-blue-700 bg-blue-500 active:bg-blue-100 active:text-blue-800 hover:bg-blue-200 hover:cursor-pointer  rounded-md text-sm transition-colors shadow-sm">
                         Pay Now
                       </button>
-                      <button
+                      <button onClick={()=>handleCancel(order._id)}
                       className="h-8 px-4 font-medium text-white hover:text-red-700 bg-red-500 active:bg-red-100 active:text-red-800 hover:bg-red-200 hover:cursor-pointer  rounded-md text-sm transition-colors shadow-sm">
                         Cancel
                       </button>

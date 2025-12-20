@@ -9,7 +9,7 @@ import { useAuth } from '../Context/AuthContext';
 const AdminLayout = () => {
   const {user} = useAuth();
    const NavberLinks = [
-    { to: "/profile", label: "Profile", icon: <GoHome size={18} /> },
+    { to: "/admin-profile", label: "Profile", icon: <GoHome size={18} /> },
     { to: "/all-users", label: "Users", icon: <PiUsersThree size={18} /> },
     { to: "/all-books", label: "All Books", icon: <MdOutlineStore size={18} /> },
       
@@ -18,7 +18,7 @@ const AdminLayout = () => {
   return (
     <div className="flex h-screen w-full bg-slate-50 dark:bg-slate-50 font-display text-slate-800 dark:text-slate-400">
       {/* Sidebar */}
-      <aside className="flex h-auto w-64 flex-col justify-between border-r border-slate-300 dark:border-slate-300 bg-white dark:bg-white p-4">
+      <aside className="flex h-auto w-20 md:w-64 flex-col justify-between border-r border-slate-300 dark:border-slate-300 bg-white dark:bg-white p-4">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3 p-2">
             <div
@@ -28,7 +28,7 @@ const AdminLayout = () => {
                   `url(${user?.photoURL})`,
               }}
             ></div>
-            <div className="flex flex-col">
+            <div className="hidden md:flex flex-col">
               <h1 className="text-[#0d141b]  dark:text-[#0d141b] text-base font-semibold leading-normal">
                 {user?.displayName || "Alexandre V."}
               </h1>
@@ -53,7 +53,7 @@ const AdminLayout = () => {
                   <span className="material-symbols-outlined">
                     {item.icon}
                   </span>
-                  {item.label}
+                  <span className="hidden md:block">{item.label}</span>
                 </NavLink>
               
               ))}
@@ -94,7 +94,7 @@ const AdminLayout = () => {
         </div>
 
         <button 
-         className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
+         className="hidden md:flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
           <span className="truncate">Request a book</span>
         </button>
       </aside>

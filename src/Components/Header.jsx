@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router";
-import { Link } from "react-router";
+import { Link,useNavigate } from "react-router";
 import { useAuth } from "../Context/AuthContext.jsx";
 import { toast } from "react-hot-toast";
 import { HiMenu, HiX } from "react-icons/hi";
+
 
 const Header = () => {
   const { user, userSignOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
   const { setLoading } = useAuth();
+  const navigate = useNavigate();
   const NavberLinks = [
     { to: "/home", label: "Home" },
     { to: "/books", label: "Books" },
@@ -123,9 +125,9 @@ const Header = () => {
                    className="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg  px-4 bg-slate-900 hover:bg-slate-300 hover:text-slate-700 text-white text-sm font-semibold active:text-slate-800 active:bg-slate-200 leading-normal tracking-[0.015em] gap-x-2">
                   <span className="truncate">Log out</span>
                 </button>
-                <div className="relative">
+                <Link to={`${user.role === "member" ? '/profile' : user.role === "admin" ? "/admin-profile" : "/librarian-profile" }`} className="relative">
                   <div className="group">
-                    <div to="/">
+                    <button>
                       <img
                         src={
                           user?.photoURL ||
@@ -137,7 +139,7 @@ const Header = () => {
                         className="w-10 h-10 rounded-full border border-neutral-200 dark:border-neutral-700 cursor-pointer"
                         title={user.displayName} // simple native fallback
                       />
-                    </div>
+                    </button>
                     {/* Tooltip: visible on hover/focus */}
                     <div className="pointer-events-none absolute right-1/2 translate-x-1/2 -bottom-10 transform opacity-0 scale-95 transition-all duration-150 group-hover:opacity-100 group-hover:scale-100 group-focus:opacity-100">
                       <div className="bg-neutral-900 text-white text-[16px] px-3 py-1 rounded-md shadow-md whitespace-nowrap">
@@ -145,7 +147,7 @@ const Header = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
             ) : (
               <div className="flex items-center gap-2">

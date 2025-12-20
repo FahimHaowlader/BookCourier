@@ -21,6 +21,8 @@ import BooksPage from './Pages/BooksPage.jsx'
 import WishlistPage from './Pages/WishlistPage.jsx'
 import BookDetailsPage from './Pages/BookDetailsPage.jsx'
 import AllBookPage from './Pages/AllBookPage.jsx'
+import NotFoundPage from './Pages/NotFoundPage.jsx'
+
 
 
 // Importing Layouts
@@ -28,6 +30,7 @@ import MainLayout from './Layout/MainLayout.jsx'
 import UserLayout from './Layout/UserLayout.jsx'
 import LibrarianLayout from './Layout/LibrarianLayout.jsx'
 import AdminLayout from './Layout/AdminLayout.jsx'
+import PrivateRoute from './Components/PrivateRoute.jsx'
 
 
 function App() {
@@ -76,7 +79,8 @@ function App() {
     },
     {
       path:'/',
-      Component:UserLayout,
+      // Component:UserLayout,
+      element:<PrivateRoute  allowedRoles={["member"]}> <UserLayout/> </PrivateRoute>,
       children:[
         {
           path:'profile',
@@ -99,11 +103,16 @@ function App() {
     },
     {
       path:'/',
-      Component:LibrarianLayout,
+      // Component:LibrarianLayout,
+        element:<PrivateRoute  allowedRoles={["librarian"]}> <LibrarianLayout/> </PrivateRoute>,
       children:[
         {
           path:'add-book',
           Component:AddBookPage
+        },
+        {
+          path:'librarian-profile',
+          Component:ProfilePage
         },
         {
           path : 'orders',
@@ -117,10 +126,11 @@ function App() {
     },
      {
       path:'/',
-      Component:AdminLayout,
+      // Component:AdminLayout,
+        element:<PrivateRoute  allowedRoles={["admin"]}> <AdminLayout/> </PrivateRoute>,
       children:[
         {
-          path:'profile',
+          path:'admin-profile',
           Component:ProfilePage
         },
         {
@@ -135,7 +145,7 @@ function App() {
     },
     {
             path: '*',
-             element: <div>404 Not Found</div>
+             Component: NotFoundPage
     },
     {
       path:'/login',

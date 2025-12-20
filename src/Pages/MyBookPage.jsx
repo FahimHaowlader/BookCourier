@@ -73,7 +73,7 @@ export default function MyBooksPage() {
     <div className="p-10">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-bold  text-black dark:text-black ">
+        <h1 className="text-lg md:text-4xl font-bold  text-black dark:text-black ">
           My Books
         </h1>
         <Link to="/add-book" 
@@ -122,12 +122,12 @@ export default function MyBooksPage() {
                 <td className="text-center px-6 py-4">
                   <span
                     className={`inline-flex items-center px-3 py-1 text-xs font-semibold leading-5 rounded-full ${
-                      book.status === "Published"
+                      book.status === "published"
                         ? "bg-green-200 dark:bg-green-200 text-green-700 dark:text-green-700"
                         : "bg-gray-200 dark:bg-gray-200 text-gray-800 dark:text-gray-800"
                     }`}
                   >
-                    {book.status}
+                    {book.status === "published" ? "Published" : "Unpublished"}
                   </span>
                 </td>
                 <td className="text-center px-6 py-4 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:underline">

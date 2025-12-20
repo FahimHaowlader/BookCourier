@@ -75,7 +75,7 @@ export default function BookDetailsPage() {
     await axios.post('http://localhost:3000/orders', {  
       useremail: user.email,
       bookId: id,
-      buyer: user.name,
+      buyer: user.displayName,
       bookName: book.bookName,
       price: book.price,
       status:"pending",

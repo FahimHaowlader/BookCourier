@@ -153,8 +153,8 @@ export default function AddBookPage() {
               name="status"
               className="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#0d141b] dark:text-[#0d141b] border border-slate-300 dark:border-slate-300 bg-background-light dark:bg-slate-200 h-10 p-[15px] text-base placeholder:text-slate-400 dark:placeholder:text-slate-500"
             >
-              <option>Published</option>
-              <option>Unpublished</option>
+              <option value={"published"}>Published</option>
+              <option value={"unpublished"}>Unpublished</option>
             </select>
           </label>
 
