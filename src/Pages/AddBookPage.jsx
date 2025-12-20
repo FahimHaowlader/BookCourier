@@ -29,12 +29,13 @@ export default function AddBookPage() {
     const image = form.pic.value;
     const description = form.description.value;
     const publisher = form.publisher.value;
+    const date = new Date();
     //  console.log("User Email:", user?.email);
 
      
      
 
-    const bookData = { bookName, description, author, publisher, status,category, price : Number(price), pic :image ,sellerEmail:user?.email};
+    const bookData = { bookName, description, author, date, publisher, status,category, price : Number(price), pic :image ,sellerEmail:user?.email};
     console.log("Submitted Book:", bookData);
     await axios.post("http://localhost:3000/books", bookData)
     .then((response) => {

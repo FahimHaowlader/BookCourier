@@ -1,4 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo,useEffect } from "react";
+import { Link } from "react-router";
+import axios from "axios";
+import {toast} from "react-hot-toast";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 
 const USERS_PER_PAGE = 5;
 
@@ -12,18 +17,33 @@ const initialUsers = [
 ];
 
 export default function AllUsersPage() {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState(null);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [page, setPage] = useState(1);
 
+  useEffect(() => {
+    // Reset to first page when filters change
+    const downloadUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/all-users')
+        console.log("Fetched users:", response.data);
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    downloadUsers();
+        
+  }, []);
+
   /* ---------------- FILTER LOGIC ---------------- */
   const filteredUsers = useMemo(() => {
-    return users.filter((u) => {
+    return users?.filter((u) => {
       const matchSearch =
-        u.name.toLowerCase().includes(search.toLowerCase()) ||
-        u.email.toLowerCase().includes(search.toLowerCase()) ||
-        String(u.id).includes(search);
+        u.name?.toLowerCase().includes(search.toLowerCase()) ||
+        u.email?.toLowerCase().includes(search.toLowerCase()) ||
+        String(u._id).includes(search);
 
       const matchRole =
         roleFilter === "All" ? true : u.role === roleFilter;
@@ -33,28 +53,55 @@ export default function AllUsersPage() {
   }, [users, search, roleFilter]);
 
   /* ---------------- PAGINATION ---------------- */
-  const totalPages = Math.ceil(filteredUsers.length / USERS_PER_PAGE);
-  const paginatedUsers = filteredUsers.slice(
+  const totalPages = Math.ceil(filteredUsers?.length / USERS_PER_PAGE);
+  const paginatedUsers = filteredUsers?.slice(
     (page - 1) * USERS_PER_PAGE,
     page * USERS_PER_PAGE
   );
 
   /* ---------------- ACTION HANDLERS ---------------- */
-  const makeAdmin = (id) => {
+  const makeAdmin = async (id) => {
+    await axios.patch(`http://localhost:3000/users/${id}`, { role: "admin" })
+    .then(response => {
+      console.log("User role updated:", response.data);
+      toast.success("User promoted to Admin");
+    })
+    .catch(error => {
+      console.error("Error updating user role:", error);
+      toast.error("Failed to promote user to Admin");
+    });
     setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, role: "Admin" } : u))
+      prev.map((u) => (u._id === id ? { ...u, role: "admin" } : u))
     );
   };
 
-  const makeLibrarian = (id) => {
+  const makeLibrarian = async (id) => {
+    await axios.patch(`http://localhost:3000/users/${id}`, { role: "librarian" })
+    .then(response => {
+      console.log("User role updated:", response.data);
+      toast.success("User promoted to Librarian");
+    })
+    .catch(error => {
+      console.error("Error updating user role:", error);
+      toast.error("Failed to promote user to Librarian");
+    });
     setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, role: "Librarian" } : u))
+      prev.map((u) => (u._id === id ? { ...u, role: "librarian" } : u))
     );
   };
 
-   const makeMember = (id) => {
+   const makeMember = async (id) => {
+    await axios.patch(`http://localhost:3000/users/${id}`, { role: "member" })
+    .then(response => {
+      console.log("User role updated:", response.data);
+      toast.success("User demoted to Member");
+    })
+    .catch(error => {
+      console.error("Error updating user role:", error);
+      toast.error("Failed to demote user to Member");
+    });
     setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, role: "Member" } : u))
+      prev.map((u) => (u._id === id ? { ...u, role: "member" } : u))
     );
   };
 
@@ -77,7 +124,7 @@ export default function AllUsersPage() {
       <div className="flex flex-col md:flex-row gap-4 items-center">
         {/* Search */}
         <input
-          className="w-full md:flex-1 px-4 py-1.5 border border-slate-200 bg-white rounded-lg"
+          className="w-full md:flex-1 px-4 text-slate-700 py-1.5 border border-slate-200 bg-white rounded-lg"
           placeholder="Search by name, email, or user ID..."
           value={search}
           onChange={(e) => {
@@ -88,7 +135,7 @@ export default function AllUsersPage() {
 
         {/* Role Buttons */}
         <div className="flex gap-2">
-          {["All", "Member", "Librarian"].map((role) => (
+          {["All", "member", "librarian"].map((role) => (
             <button
               key={role}
               onClick={() => {
@@ -102,7 +149,7 @@ export default function AllUsersPage() {
                     : "bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-white"
                 }`}
             >
-              {role === "All" ? "All Roles" : role}
+              {role === "All" ? "All Roles" : role.toUpperCase()}
             </button>
           ))}
         </div>
@@ -124,13 +171,13 @@ export default function AllUsersPage() {
           </thead>
 
           <tbody>
-            {paginatedUsers.map((user) => (
+            {paginatedUsers?.map((user) => (
               <tr
-                key={user.id}
+                key={user._id}
                 className="border-b bg-white border-slate-200 dark:border-slate-200 hover:bg-slate-100 hover:cursor-pointer"
               >
                 <td className="px-4 py-3 text-sm text-slate-700">
-                  #{user.id}
+                  {user._id}
                 </td>
 
                 <td className="px-4 py-3 text-sm text-slate-900 font-medium">
@@ -145,9 +192,9 @@ export default function AllUsersPage() {
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium
                       ${
-                        user.role === "Admin"
+                        user.role === "admin"
                           ? "bg-red-100 text-red-700"
-                          : user.role === "Librarian"
+                          : user.role === "librarian"
                           ? "bg-blue-100 text-blue-700"
                           : "bg-slate-100 text-slate-700"
                       }`}
@@ -159,15 +206,15 @@ export default function AllUsersPage() {
                 {/* ACTIONS */}
                 <td className="px-4 py-3 text-right text-slate-900 font-medium hover:cursor-pointer">
                   <div className="flex justify-end gap-2">
-                    {user.role == "Librarian" && (<>
+                    {user.role == "librarian" && (<>
                            <button
-                        onClick={() => makeMember(user.id)}
+                        onClick={() => makeMember(user._id)}
                         className="px-3 py-1 text-xs border border-slate-400 rounded-md hover:bg-slate-600 hover:text-white hover:cursor-pointer active:bg-slate-500"
                       >
                         Make Member
                       </button>
                       <button
-                        onClick={() => makeAdmin(user.id)}
+                        onClick={() => makeAdmin(user._id)}
                         className="px-3 py-1 text-xs border border-slate-400 rounded-md hover:bg-slate-600 hover:text-white hover:cursor-pointer active:bg-slate-500"
                       >
                         Make Admin
@@ -176,16 +223,16 @@ export default function AllUsersPage() {
                            </>
                     )}
 
-                    {user.role == "Member" && (<>
+                    {user.role == "member" && (<>
                    
                       <button
-                        onClick={() => makeLibrarian(user.id)}
+                        onClick={() => makeLibrarian(user._id)}
                         className="px-3 py-1 text-xs border border-slate-400 rounded-md hover:bg-slate-600 hover:text-white hover:cursor-pointer active:bg-slate-500"
                       >
                         Make Librarian
                       </button>
                         <button
-                        onClick={() => makeAdmin(user.id)}
+                        onClick={() => makeAdmin(user._id)}
                         className="px-3 py-1 text-xs border border-slate-400 rounded-md hover:bg-slate-600 hover:text-white hover:cursor-pointer active:bg-slate-500"
                       >
                         Make Admin
@@ -197,11 +244,11 @@ export default function AllUsersPage() {
               </tr>
             ))}
 
-            {paginatedUsers.length === 0 && (
+            {paginatedUsers?.length === 0 && (
               <tr>
                 <td
                   colSpan={5}
-                  className="text-center py-6 text-slate-500"
+                  className="text-center py-6 text-slate-500 bg-white dark:bg-white"
                 >
                   No users found
                 </td>
@@ -212,30 +259,31 @@ export default function AllUsersPage() {
       </div>
 
       {/* ================= PAGINATION ================= */}
-      {/* <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <p className="text-sm text-slate-600">
           Showing {(page - 1) * USERS_PER_PAGE + 1} to{" "}
-          {Math.min(page * USERS_PER_PAGE, filteredUsers.length)} of{" "}
-          {filteredUsers.length} results
+          {Math.min(page * USERS_PER_PAGE, filteredUsers?.length)} results
+          {/* of{" "}
+          {filteredUsers.length} results */}
         </p>
 
         <div className="flex gap-2">
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 border rounded disabled:opacity-50"
+            className="px-3 py-1 border rounded-xl cursor-pointer disabled:opacity-50"
           >
-            Prev
+          <IoIosArrowBack size={20} />
           </button>
           <button
             disabled={page === totalPages}
             onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 border rounded disabled:opacity-50"
+            className="px-3 py-1 border rounded-xl cursor-pointer disabled:opacity-50"
           >
-            Next
+          <IoIosArrowForward size={20} />
           </button>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

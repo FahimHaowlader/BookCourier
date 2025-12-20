@@ -52,10 +52,10 @@ function App() {
             path:'/blogs',
             Component: BlogsPage  
           },
-          {
-          path:'/contact',
-          Component: ContactPage
-          },
+          // {
+          // path:'/contact',
+          // Component: ContactPage
+          // },
           {
           path:'/about',
           Component: AboutPage

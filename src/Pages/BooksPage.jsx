@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import axios from "axios";
+import {toast} from "react-hot-toast";
 
 
 const initialBooks = [
@@ -32,27 +35,48 @@ const initialBooks = [
 ];
 
 export default function BooksPage() {
-  const [books, setBooks] = useState(initialBooks);
+  const [books, setBooks] = useState(null);
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
 
-  const ITEMS_PER_PAGE = 5;
-
-  const filteredBooks = books.filter((book) =>
+  // const ITEMS_PER_PAGE = 8;
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/books');
+        const data = response.data;
+        setBooks(data);
+        // console.log("Books data:", data);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
+    fetchBooks();
+  }, []);
+  const filteredBooks = books?.filter((book) =>
     `${book.title} ${book.author} ${book.isbn}`
       .toLowerCase()
       .includes(search.toLowerCase())
   );
 
-  const paginatedBooks = filteredBooks.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
-  );
+  // const paginatedBooks = filteredBooks.slice(
+  //   (page - 1) * ITEMS_PER_PAGE,
+  //   page * ITEMS_PER_PAGE
+  // );
 
-  const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
+  // const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
 
-  const handleDelete = (id) => {
-    setBooks((prev) => prev.filter((book) => book.id !== id));
+  const handleDelete = async  (id) => {
+    await axios.delete(`http://localhost:3000/books/${id}`)
+    .then((response) => {
+      // console.log("Book deleted:", response.data);
+      toast.success("Book deleted successfully");
+    })
+    .catch((error) => {
+      // console.error("Error deleting book:", error);
+      toast.error("Failed to delete the book");
+    });
+    setBooks((prev) => prev.filter((book) => book._id !== id));
   };
 
   return (
@@ -70,7 +94,7 @@ export default function BooksPage() {
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            setPage(1);
+            // setPage(1);
           }}
         />
       </div>
@@ -84,9 +108,9 @@ export default function BooksPage() {
                 <th className="px-4 py-3 text-xs  uppercase  ">
                   Book Title & Author
                 </th>
-                <th className="px-4 py-3 text-xs uppercase ">
+                {/* <th className="px-4 py-3 text-xs uppercase ">
                   ISBN
-                </th>
+                </th> */}
                 <th className="px-4 py-3 text-xs uppercase ">
                   Genre
                 </th>
@@ -103,29 +127,29 @@ export default function BooksPage() {
             </thead>
 
             <tbody className="divide-y divide-slate-200 hover:cursor-pointer  dark:divide-slate-200 bg-white dark:bg-white">
-              {paginatedBooks.map((book) => (
+              {books?.map((book) => (
                 <tr
-                  key={book.id}
+                  key={book._id}
                   className=" hover:bg-slate-200 dark:hover:bg-slate-200"
                 >
                   <td className="px-4 py-3 text-sm text-slate-900 dark:text-slate-900">
-                    "{book.title}" by {book.author}
+                    "{book.bookName}" by {book.author}
                   </td>
-                  <td className="px-4 py-3 text-sm text-slate-500 dark:text-slate-500">
+                  {/* <td className="px-4 py-3 text-sm text-slate-500 dark:text-slate-500">
                     {book.isbn}
-                  </td>
+                  </td> */}
                   <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-600">
-                    {book.genre}
+                    {book.category}
                   </td>
                   <td className="px-4 py-3 text-sm text-slate-500 dark:text-slate-500">
-                    {book.dateAdded}
+                    {book.date}
                   </td>
-                  <td className="text-center px-4 py-3">
+                  <td className="text-center p  x-4 py-3">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
                         book.published
                           ? "bg-green-100 text-green-800 dark:bg-green-100 dark:text-green-800"
-                          : "bg-red-100 text-red-800 dark:bg-red-100 dark:text-red-800"
+                          : "bg-slate-100 text-slate-800 dark:bg-slate-100 dark:text-slate-800"
                       }`}
                     >
                       {book.published ? "Published" : "Unpublished"}
@@ -133,19 +157,19 @@ export default function BooksPage() {
                   </td>
                   <td className="flex items-center justify-center text-center px-4 py-3">
                     <button
-                      onClick={() => handleDelete(book.id)}
+                      onClick={() => handleDelete(book._id)}
                       className="flex items-center gap-1 text-red-400 hover:text-red-600 hover:cursor-pointer dark:text-red-400"
                     >
                       {/* <span className="material-symbols-outlined text-base">
                         delete
                       </span> */}
-                      Delete
-                    </button>
+                      <MdOutlineDeleteOutline/>    
+                      </button>
                   </td>
                 </tr>
               ))}
 
-              {paginatedBooks.length === 0 && (
+              {books?.length === 0 && (
                 <tr>
                   <td
                     colSpan="6"

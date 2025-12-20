@@ -1,11 +1,17 @@
 import React from 'react'
 import { NavLink,Outlet } from 'react-router';
+   import { GoHome } from "react-icons/go";
+import { PiUsersThree } from "react-icons/pi";
+import { MdOutlineStore } from "react-icons/md";
+import axios from 'axios';
+import { useAuth } from '../Context/AuthContext';
 
 const AdminLayout = () => {
+  const {user} = useAuth();
    const NavberLinks = [
-    { to: "/profile", label: "Profile" },
-    { to: "/all-users", label: "Users" },
-    { to: "/all-books", label: "All Books" },
+    { to: "/profile", label: "Profile", icon: <GoHome size={18} /> },
+    { to: "/all-users", label: "Users", icon: <PiUsersThree size={18} /> },
+    { to: "/all-books", label: "All Books", icon: <MdOutlineStore size={18} /> },
       
   ];
 
@@ -19,15 +25,15 @@ const AdminLayout = () => {
               className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
               style={{
                 backgroundImage:
-                  "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3FTXFzqZrIY0ctXZ-3qQz69ozrf52P9msyxo0OVjd-pSkcJtJ5Lh4DbsPQbjn_F63QXRWus49B1lTpjUID61NMQd-YyVmr0lUx_OE312D3xO3-l18DZoPiZfsiwDsmiu3dNKiBH-hp5uIs6KV3Lm30x0FYSxbUEspfA3IQFoA6d5N0BEgkGe26fV8bLuPdl-ohgM8_Wo4DIVubDreJC_oAORmCR2q-gtdCFCRpmHGKgrK8dqxERVwHxs_3GFfVDxNyg0TnFbFZM4')",
+                  `url(${user?.photoURL})`,
               }}
             ></div>
             <div className="flex flex-col">
               <h1 className="text-[#0d141b]  dark:text-[#0d141b] text-base font-semibold leading-normal">
-                Alexandre V.
+                {user?.displayName || "Alexandre V."}
               </h1>
-              <p className="text-[#4c739a] dark:text-slate-500 text-[15px] font-normal leading-normal">
-                alex.v@email.com
+              <p className="text-[#4c739a] dark:text-slate-500 text-[10px] font-normal leading-normal">
+                {user?.email || "xyz@gmail.com"}
               </p>
             </div>
           </div>
@@ -45,7 +51,8 @@ const AdminLayout = () => {
                   }
                 >
                   <span className="material-symbols-outlined">
-                    Dashboard</span>
+                    {item.icon}
+                  </span>
                   {item.label}
                 </NavLink>
               

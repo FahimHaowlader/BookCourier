@@ -12,9 +12,9 @@ const Header = () => {
   const { setLoading } = useAuth();
   const NavberLinks = [
     { to: "/home", label: "Home" },
+    { to: "/books", label: "Books" },
     { to: "/blogs", label: "Blogs" },
     { to: "/reviews", label: "Reviews" },
-    { to: "/contact", label: "Contact" },
     { to: "/about", label: "About" },
   ];
 
